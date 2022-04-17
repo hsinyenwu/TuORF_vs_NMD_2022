@@ -15,7 +15,7 @@ ORFs_max_filt <- read.delim("~/Desktop/Tomato_paper_version/Tomato_Root_20181118
 nrow(ORFs_max_filt)
 ORFs_max_filt_uORFs <- ORFs_max_filt %>% filter(category=="uORF")
 nrow(ORFs_max_filt_uORFs) #1329
-ORFs_max_filt_w_5UTR <- ORFs_max_filt %>% filter(annotated_start >1 & category =="ORFs_ccds")
+ORFs_max_filt_w_5UTR <- ORFss_max_filt %>% filter(annotated_start >1 & category =="ORFs_ccds")
 dim(ORFs_max_filt_w_5UTR) #[1] 14732  38
 table(ORFs_max_filt$category)
 
@@ -64,31 +64,30 @@ length(unique(ORFs_max_filt_mORF$transcript_id))
 ORFs_max_filt_mORF <- ORFs_max_filt_mORF %>% mutate(mORF_P_sites=ORF_P_sites,mORF_length=ORF_length) %>% dplyr::select(transcript_id,mORF_P_sites,mORF_length)
 ORFs_max_filt_uORF_mORF <- inner_join(ORFs_max_filt_uORFs,ORFs_max_filt_mORF) %>% mutate(uORF_mORF_TE_ratio=(ORF_P_sites/ORF_length)/(mORF_P_sites/mORF_length))
 ORFs_max_filt_uORF_mORF$log2_uORF_mORF_TE_ratio=log2(ORFs_max_filt_uORF_mORF$uORF_mORF_TE_ratio)
-ORFs_max_filt_uORF_mORF <- ORFs_max_filt_uORF_mORF %>% mutate(log2_uORF_TE=log2(ORF_P_sites/ORF_length))
+# ORFs_max_filt_uORF_mORF <- ORFs_max_filt_uORF_mORF %>% mutate(log2_uORF_TE=log2(ORF_P_sites/ORF_length))
+#make log2_uORF_TE and remove NaN
+ORFs_max_filt_uORF_mORF <- ORFs_max_filt_uORF_mORF %>% mutate(log2_uORF_TE=log2(ORF_P_sites/ORF_RNA_sites)) %>% filter(is.finite(log2_uORF_TE))
 ORFs_max_filt_uORF_mORF <- ORFs_max_filt_uORF_mORF %>% filter(!(gene_id %in% atuORF_gene_df2$gene_id))
 dim(ORFs_max_filt_uORF_mORF) #[1] 982   43
 
 ORFs_max_filt_uORF_mORF_TE_CDS <- inner_join(ORFs_max_filt_uORF_mORF,TE_CDS,by="gene_id")
-ORFs_max_filt_uORF_mORF_TE_CDS <- ORFs_max_filt_uORF_mORF_TE_CDS %>% mutate(log2_RNA=log2(RNA))
+ORFs_max_filt_uORF_mORF_TE_CDS <- ORFs_max_filt_uORF_mORF_TE_CDS %>% mutate(log2_RNA=log2(RNA)) %>% filter(is.finite(log2_RNA))
 dim(ORFs_max_filt_uORF_mORF_TE_CDS) # 979  48
 
-cor(x=ORFs_max_filt_uORF_mORF_TE_CDS$log2_uORF_TE, y=ORFs_max_filt_uORF_mORF_TE_CDS$log2_RNA) #0.4727547
+cor(x=ORFs_max_filt_uORF_mORF_TE_CDS$log2_RNA, y=ORFs_max_filt_uORF_mORF_TE_CDS$log2_uORF_TE) #-0.1357857
+cor.test(x=ORFs_max_filt_uORF_mORF_TE_CDS$log2_RNA, y=ORFs_max_filt_uORF_mORF_TE_CDS$log2_uORF_TE) #p-value = 2.037e-05
 
-pTuORF_TE_vs_mORF_RNA <- ggplot(ORFs_max_filt_uORF_mORF_TE_CDS, aes(y=log2_RNA,x=log2_uORF_TE,alpha=0.2))+
+pTuORF_TE_vs_mORF_RNA <- ggplot(ORFs_max_filt_uORF_mORF_TE_CDS, aes(x=log2_RNA,y=log2_uORF_TE,alpha=0.2))+
   geom_point(size=2, shape=1) +
   geom_smooth(method=lm, se=T, fullrange=TRUE) + theme_classic()+
-  annotate("text", x=-5, y=11.5, label= "R=0.47") +
-  labs(y = "log2(RNA TPM of mORF)", x = "log2(TuORF TE of mORF)") +theme(legend.position="none")
+  annotate("text", x=-5, y=11.5, label= "") +
+  labs(x = "log2(RNA TPM)", y = "log2(TuORF TE)") +theme(legend.position="none")
 pTuORF_TE_vs_mORF_RNA
-
 
 ggsave("~/Desktop/atRTD3/tomato_TuORF_TE_vs_mRNA_levels.pdf",
        plot = pTuORF_TE_vs_mORF_RNA,
        units = "in",
        width = 4,
        height = 4)
-
-
-
 
 ```
