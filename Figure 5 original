@@ -209,19 +209,9 @@ bxp <- ggboxplot(mdecay_uORFs,
         legend.text=element_text(size=12),
         plot.title = element_text(hjust = 0.5))
 
-bxp
-
 # Add p-values onto the box plots
 stat.test <- stat.test %>%
   add_xy_position(x = "category", dodge = 0.8)
-
-yvalue <- function(ystart,stepsize,num) {
-  Ev <- c()
-  for(i in 1:num){
-    Ev[i] <- ystart + stepsize*(i-1)
-  }
-  return(Ev)
-}
 
 vsteps <- yvalue(ystart=0.025,stepsize=0.0015,num=6)
 
@@ -264,19 +254,9 @@ bxp <- ggboxplot(mdecay_NMD,
         legend.text=element_text(size=12),
         plot.title = element_text(hjust = 0.5))
 
-bxp
-
 # Add p-values onto the box plots
 stat.test <- stat.test %>%
   add_xy_position(x = "category", dodge = 0.8)
-
-yvalue <- function(ystart,stepsize,num) {
-  Ev <- c()
-  for(i in 1:num){
-    Ev[i] <- ystart + stepsize*(i-1)
-  }
-  return(Ev)
-}
 
 vsteps <- yvalue(ystart=0.028,stepsize=0.0015,num=6)
 
@@ -314,19 +294,9 @@ bxp <- ggboxplot(mdecay_NMD_uORF,
         legend.text=element_text(size=12),
         plot.title = element_text(hjust = 0.5))
 
-bxp
-
 # Add p-values onto the box plots
 stat.test <- stat.test %>%
   add_xy_position(x = "category", dodge = 0.8)
-
-yvalue <- function(ystart,stepsize,num) {
-  Ev <- c()
-  for(i in 1:num){
-    Ev[i] <- ystart + stepsize*(i-1)
-  }
-  return(Ev)
-}
 
 vsteps <- yvalue(ystart=0.027,stepsize=0.0015,num=6)
 
