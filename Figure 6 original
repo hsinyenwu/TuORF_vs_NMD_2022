@@ -1,0 +1,426 @@
+```
+#####################################################################################
+# Figure 6 Decay rates in different mutants vs NMD targets, uORF genes, other genes #
+# WT, sov, vcs, sov.vcs double mutant                                               #
+# Boxplot and U test                                                                #                              
+#####################################################################################
+
+###############
+# Y: NMD targets, uORF genes, other genes vs mRNA/Ribo/TE/half-life/protein abundance
+###############
+rm(list=ls())
+library(openxlsx)
+library(dbplyr)
+library(reshape)
+library(ggplot2)
+library(ggtext)
+
+#Load data
+NMD <- read.xlsx("~/Desktop/uORFs_miRNA/NMD_targets_TPC2020.xlsx",sheet=5)
+colnames(NMD) <- "gene_id"
+decay <- read.xlsx("~/Desktop/uORFs_miRNA/Sorensona_et_al_pnas2017.xlsx",sheet=3)
+Exp <- read.delim(file="~/Desktop/uORFs_miRNA/ORFs_max_filt_Araport_both_round_reads",header=T,stringsAsFactors=F,sep="\t")
+Exp_uORFs <- Exp %>% filter(category=="uORF")
+
+
+
+###################################
+#check genes up-regulated in upf1
+# NMD2 <- read.xlsx("~/Desktop/uORFs_miRNA/upf1_diff_exp_genes.xlsx")
+# colnames(NMD2) <- c("gene_id","regulation")
+# NMD2 <- NMD2 %>% filter(regulation=="up-regulated") %>% 
+#   dplyr::select("gene_id") %>% 
+#   filter(!(gene_id %in%NMD$gene_id))
+# nrow(NMD2) #1695
+# NMD <- NMD2
+
+
+# mRNA deacy genes with or without uORFs
+# head(decay)
+# decay_uORFs <- decay %>% filter(gene_id %in% Exp_uORFs$gene_id)
+# decay_others <- decay %>% filter(!(gene_id %in% Exp_uORFs$gene_id))
+# decay_uORFs$Category <- "uORF genes"
+# decay_others$Category <- "no-uORF genes"
+# decay_w_wo_uORFs<- rbind(decay_uORFs,decay_others)
+
+# decay <- read.xlsx("~/Desktop/uORFs_miRNA/Sorensona_et_al_pnas2017.xlsx",sheet=3)
+# decay_NMD_targets <- decay %>% filter(gene_id %in% NMD$gene_id)
+# decay_others <- decay %>% filter(!(gene_id %in% NMD$gene_id))
+# decay_NMD_targets$Category <- "NMD targets"
+# decay_others$Category <- "Others"
+# decay_w_wo_NMD <- rbind(decay_NMD_targets,decay_others)
+
+# pvcs.sov <- ggplot(vcs.sov_df, aes(x=value,color=Category))+
+#   stat_ecdf(geom = "step")+
+#   xlim(0,0.03)+xlab("Decay Rate")+ylab("Fraction of Genes")+labs(tag = "D") +
+#   theme_classic() + theme(text = element_text(size=12), 
+#                           plot.title = element_text(hjust = 0.5, size = 20, face = "italic"),
+#                           legend.text = element_text(size=16),
+#                           legend.title = element_text(size=12)) + 
+#   ggtitle("vcs.sov") +
+#   scale_colour_discrete("Category",labels=c("NMD targets","uORF genes","Others"))
+# pvcs.sov
+
+mdecay <- melt(decay, id="gene_id")
+dim(decay)
+dim(mdecay)
+
+mdecay_WT_uORFs <- mdecay %>% filter(variable=="WT") %>% filter(gene_id %in% Exp_uORFs$gene_id)
+mdecay_WT_others <- mdecay %>% filter(variable=="WT") %>% filter(!(gene_id %in% Exp_uORFs$gene_id))
+mdecay_WT_uORFs$Category <- "uORFs"
+mdecay_WT_others$Category <- "Others"
+mdecay_WT_uORFs_and_others <- rbind(mdecay_WT_uORFs,mdecay_WT_others)
+mdecay_WT_uORFs_and_others$Category <- factor(mdecay_WT_uORFs_and_others$Category, levels=c("uORFs", "Others"), labels=c("uORFs", "Others"))
+
+p_mdecay_WT_uORFs_and_others <- ggplot(mdecay_WT_uORFs_and_others, aes(x=value,color=Category))+
+  stat_ecdf(geom = "step")+
+  xlim(0,0.02)+xlab("Decay rate")+ylab("Fraction of genes")+labs(tag = "") +
+  theme_classic() + theme(text = element_text(size=12), 
+                          plot.title = element_text(hjust = 0.5, size = 10),
+                          legend.text = element_text(size=12),
+                          legend.title = element_text(size=12))
+p_mdecay_WT_uORFs_and_others + scale_color_manual(values = c("uORFs" = "#F8766D", "Others"="#00BFC4")) 
+
+library(scales)
+show_col(hue_pal()(2))
+as.character(hue_pal()(3)) #[1] "#F8766D" "#00BA38" "#619CFF"
+##########################
+# p_mdecay <- ggplot(mdecay, aes(x=value,color=variable))+
+#   stat_ecdf(geom = "step")+
+#   xlim(0,0.03)+xlab("Decay Rate")+ylab("Fraction")+labs(tag = "A") +
+#   theme_classic() + theme(text = element_text(size=12), 
+#                           plot.title = element_text(hjust = 0.5, size = 12),
+#                           legend.text = element_text(size=12)) + 
+#   ggtitle("All transcripts")
+# p_mdecay
+
+mdecay_rm_uORFs_NMD <- mdecay %>% filter(!(gene_id %in% Exp_uORFs$gene_id) & !(gene_id %in% NMD$gene_id))
+mdecay_rm_uORFs_NMD$variable <- factor(mdecay_rm_uORFs_NMD$variable, levels=c("WT", "sov", "vcs", "vcs.sov"), labels=c("WT", "sov", "vcs", "vcs.sov"))
+
+
+p_mdecay_rm_uORFs_NMD <- ggplot(mdecay_rm_uORFs_NMD, aes(x=value,color=variable))+
+  stat_ecdf(geom = "step")+
+  xlim(0,0.03)+xlab("Decay rate")+ylab("Fraction of genes")+labs(tag = "A") +
+  theme_classic() + theme(text = element_text(size=12), 
+                          plot.title = element_text(hjust = 0.5, size = 10),
+                          legend.text = element_text(size=12),
+                          legend.title = element_text(size=12)) +
+  ggtitle("All txs \n (no B,C txs)")
+p_mdecay_rm_uORFs_NMD
+
+mdecay_uORFs <- mdecay %>% filter(gene_id %in% Exp_uORFs$gene_id) %>% filter(!(gene_id %in% NMD$gene_id))
+mdecay_uORFs$variable <- factor(mdecay_uORFs$variable, levels=c("WT", "sov", "vcs", "vcs.sov"), labels=c("WT", "sov", "vcs", "vcs.sov"))
+
+p_mdecay_uORFs <- ggplot(mdecay_uORFs, aes(x=value,color=variable))+
+  stat_ecdf(geom = "step")+
+  xlim(0,0.03)+xlab("Decay rate")+ylab("Fraction of genes")+labs(tag = "B") +
+  theme_classic() +  
+  ggtitle("uORF-containing mRNAs \n (no NMD targets)") +
+  # scale_colour_discrete("Category", labels = c("WT", "*sov*", "*vcs*", "*vcs.sov*")) +
+  theme(text = element_text(size=12),
+        plot.title = element_text(hjust = 0.5, size = 10),
+        legend.text = element_markdown(size=12),
+        legend.title = element_text(size=12),
+        axis.title.y = element_blank())
+p_mdecay_uORFs 
+
+mdecay_NMD <- mdecay %>% filter(gene_id %in% NMD$gene_id) %>% filter(!(gene_id %in% Exp_uORFs$gene_id))
+mdecay_NMD$variable <- factor(mdecay_NMD$variable, levels=c("WT", "sov", "vcs", "vcs.sov"), labels=c("WT", "sov", "vcs", "vcs.sov"))
+
+p_mdecay_NMD <- ggplot(mdecay_NMD, aes(x=value,color=variable))+
+  stat_ecdf(geom = "step")+
+  xlim(0,0.03)+xlab("Decay rate")+ylab("Fraction of genes")+labs(tag = "C") +
+  theme_classic() + theme(text = element_text(size=12), 
+                          plot.title = element_text(hjust = 0.5, size = 10),
+                          legend.text = element_text(size=12),
+                          axis.title.y = element_blank()) + 
+  ggtitle("NMD targets \n (no uORF genes)")
+p_mdecay_NMD 
+
+mdecay_NMD_uORF <- mdecay %>% filter(gene_id %in% intersect(NMD$gene_id, Exp_uORFs$gene_id))
+mdecay_NMD_uORF$variable <- factor(mdecay_NMD_uORF$variable, levels=c("WT", "sov", "vcs", "vcs.sov"), labels=c("WT", "sov", "vcs", "vcs.sov"))
+
+p_mdecay_NMD_uORF <- ggplot(mdecay_NMD_uORF, aes(x=value,color=variable))+
+  stat_ecdf(geom = "step")+
+  xlim(0,0.03)+xlab("Decay rate")+ylab("Fraction of genes")+labs(tag = "D") +
+  theme_classic() + theme(text = element_text(size=12), 
+                          plot.title = element_text(hjust = 0.5, size = 10),
+                          legend.text = element_text(size=12),
+                          axis.title.y = element_blank()) + 
+  ggtitle("NMD targets w uORFs \n  ")
+p_mdecay_NMD_uORF
+
+
+#a function to get legend from p_mdecay_uORFs
+get_legend<-function(a.gplot){
+  tmp <- ggplot_gtable(ggplot_build(a.gplot))
+  leg <- which(sapply(tmp$grobs, function(x) x$name) == "guide-box")
+  legend <- tmp$grobs[[leg]]
+  return(legend)}
+
+p2_legend <- get_legend(p_mdecay_uORFs)
+
+p3= grid.arrange(p_mdecay_rm_uORFs_NMD + theme(legend.position="none"),
+             p_mdecay_uORFs + theme(legend.position="none"),
+             p_mdecay_NMD + theme(legend.position="none"),
+             p_mdecay_NMD_uORF + theme(legend.position="none"),
+             p2_legend,
+             layout_matrix=rbind(c(1,2,3,4,5)),
+             top=textGrob("Figure 6. mRNA decay rates for NMD targets and uORF-containing genes",gp = gpar(fontsize = 12))) #fontface = "bold"
+
+# ggsave("~/Desktop/uORFs_miRNA/Figures_May052021/Figure 6.mRNA decay rates for UCT NMD-targets in wt and decay mutants.pdf",
+#        plot = p3,
+#        units = "in",
+#        width = 13,
+#        height = 2.7)
+
+#######################
+####   Box plot    ####
+#######################
+#######################
+#######################
+#######################
+library(ggpubr)
+library(rstatix)
+library(gridExtra)
+library(grid)
+#######################
+# All txs boxplot
+#######################
+
+stat.test <- mdecay_rm_uORFs_NMD %>%
+  wilcox_test(value ~ variable) %>% 
+  adjust_pvalue(method = "BY") %>%
+  add_significance("p.adj")
+stat.test
+
+# Create a box plot
+bxp <- ggboxplot(mdecay_rm_uORFs_NMD, 
+                 x="variable", 
+                 y = "value", 
+                 color = "variable", 
+                 outlier.shape=NA,
+                 notch = FALSE,
+                 ylim=c(-0.001,0.035),
+                 legend = "right") + 
+  labs(tag = "A",title="All txs \n (no uORF and NMD genes)") + 
+  ylab("Decay Rate")+
+  theme(plot.tag = element_text(face = 'bold',size=12),
+        axis.title.x=element_blank(),
+        axis.title.y=element_text(size=12),
+        axis.text.x=element_blank(),
+        legend.title=element_text(size=12),
+        legend.text=element_text(size=12),
+        plot.title = element_text(hjust = 0.5))
+
+bxp
+
+# Add p-values onto the box plots
+stat.test <- stat.test %>%
+  add_xy_position(x = "variable", dodge = 0.8)
+
+yvalue <- function(ystart,stepsize,num) {
+  Ev <- c()
+  for(i in 1:num){
+    Ev[i] <- ystart + stepsize*(i-1)
+  }
+  return(Ev)
+}
+
+vsteps <- yvalue(ystart=0.0265,stepsize=0.0015,num=6)
+
+# # Add p-values onto the box plots
+# stat.test <- stat.test %>%
+#   add_xy_position(x = "Category", dodge = 0.8)
+
+pALL_box <- bxp + 
+  stat_pvalue_manual(stat.test, label = "p.adj.signif", tip.length = 0.001, y.position = vsteps, hide.ns = FALSE) + 
+  stat_n_text(y.pos=-0.001,size = 3)
+
+pALL_box
+
+#######################
+# uORF−containing mRNAs boxplot
+#######################
+
+stat.test <- mdecay_uORFs %>%
+  wilcox_test(value ~ variable) %>% 
+  adjust_pvalue(method = "BY") %>%
+  add_significance("p.adj")
+stat.test
+
+# Create a box plot
+bxp <- ggboxplot(mdecay_uORFs, 
+                 x="variable", 
+                 y = "value", 
+                 color = "variable", 
+                 outlier.shape=NA,
+                 notch = FALSE,
+                 ylim=c(-0.001,0.035),
+                 legend = "right") + 
+  labs(tag = "B",title="uORF−containing mRNAs \n (no NMD targets)") + 
+  ylab("Decay Rate")+
+  theme(plot.tag = element_text(face = 'bold',size=12),
+        axis.title.x=element_blank(),
+        axis.title.y=element_text(size=12),
+        axis.text.x=element_blank(),
+        legend.title=element_text(size=12),
+        legend.text=element_text(size=12),
+        plot.title = element_text(hjust = 0.5))
+
+bxp
+
+# Add p-values onto the box plots
+stat.test <- stat.test %>%
+  add_xy_position(x = "variable", dodge = 0.8)
+
+yvalue <- function(ystart,stepsize,num) {
+  Ev <- c()
+  for(i in 1:num){
+    Ev[i] <- ystart + stepsize*(i-1)
+  }
+  return(Ev)
+}
+
+vsteps <- yvalue(ystart=0.025,stepsize=0.0015,num=6)
+
+# # Add p-values onto the box plots
+# stat.test <- stat.test %>%
+#   add_xy_position(x = "Category", dodge = 0.8)
+
+pUCG_box <- bxp + 
+  stat_pvalue_manual(stat.test, label = "p.adj.signif", tip.length = 0.004, y.position = vsteps, hide.ns = FALSE) + 
+  stat_n_text(y.pos=-0.001,size = 3)
+
+pUCG_box
+
+#######################
+# NMD-targets boxplot
+#######################
+
+stat.test <- mdecay_NMD %>%
+  wilcox_test(value ~ variable) %>% 
+  adjust_pvalue(method = "BY") %>%
+  add_significance("p.adj")
+stat.test
+
+# Create a box plot
+bxp <- ggboxplot(mdecay_NMD, 
+                 x="variable", 
+                 y = "value", 
+                 color = "variable", 
+                 outlier.shape=NA,
+                 notch = FALSE,
+                 ylim=c(-0.001,0.035),
+                 legend = "right") + 
+  labs(tag = "C",title="NMD targets \n (no uORF genes)") + 
+  ylab("Decay Rate")+
+  theme(plot.tag = element_text(face = 'bold',size=12),
+        axis.title.x=element_blank(),
+        axis.title.y=element_text(size=12),
+        axis.text.x=element_blank(),
+        legend.title=element_text(size=12),
+        legend.text=element_text(size=12),
+        plot.title = element_text(hjust = 0.5))
+
+bxp
+
+# Add p-values onto the box plots
+stat.test <- stat.test %>%
+  add_xy_position(x = "variable", dodge = 0.8)
+
+yvalue <- function(ystart,stepsize,num) {
+  Ev <- c()
+  for(i in 1:num){
+    Ev[i] <- ystart + stepsize*(i-1)
+  }
+  return(Ev)
+}
+
+vsteps <- yvalue(ystart=0.028,stepsize=0.0015,num=6)
+
+# # Add p-values onto the box plots
+# stat.test <- stat.test %>%
+#   add_xy_position(x = "Category", dodge = 0.8)
+
+pNMD_box <- bxp + 
+  stat_pvalue_manual(stat.test, label = "p.adj.signif", tip.length = 0.004, y.position = vsteps, hide.ns = FALSE) + 
+  stat_n_text(y.pos=-0.001,size = 3)
+pNMD_box
+
+#######################
+# uORF genes and NMD-targets boxplot
+#######################
+
+stat.test <- mdecay_NMD_uORF %>%
+  wilcox_test(value ~ variable) %>% 
+  adjust_pvalue(method = "BY") %>%
+  add_significance("p.adj")
+stat.test
+
+# Create a box plot
+bxp <- ggboxplot(mdecay_NMD_uORF, 
+                 x="variable", 
+                 y = "value", 
+                 color = "variable", 
+                 outlier.shape=NA,
+                 notch = FALSE,
+                 ylim=c(-0.001,0.035),
+                 legend = "right") + 
+  labs(tag = "D",title="uORF-containing NMD targets") + 
+  ylab("Decay Rate")+
+  theme(plot.tag = element_text(face = 'bold',size=12),
+        axis.title.x=element_blank(),
+        axis.title.y=element_text(size=12),
+        axis.text.x=element_blank(),
+        legend.title=element_text(size=12),
+        legend.text=element_text(size=12),
+        plot.title = element_text(hjust = 0.5))
+
+bxp
+
+# Add p-values onto the box plots
+stat.test <- stat.test %>%
+  add_xy_position(x = "variable", dodge = 0.8)
+
+yvalue <- function(ystart,stepsize,num) {
+  Ev <- c()
+  for(i in 1:num){
+    Ev[i] <- ystart + stepsize*(i-1)
+  }
+  return(Ev)
+}
+
+vsteps <- yvalue(ystart=0.027,stepsize=0.0015,num=6)
+
+# # Add p-values onto the box plots
+# stat.test <- stat.test %>%
+#   add_xy_position(x = "Category", dodge = 0.8)
+
+puORF_NMD_box <- bxp + 
+  stat_pvalue_manual(stat.test, label = "p.adj.signif", tip.length = 0.004, y.position = vsteps, hide.ns = FALSE) + 
+  stat_n_text(y.pos=-0.001,size = 3)
+puORF_NMD_box
+
+get_legend<-function(a.gplot){
+  tmp <- ggplot_gtable(ggplot_build(a.gplot))
+  leg <- which(sapply(tmp$grobs, function(x) x$name) == "guide-box")
+  legend <- tmp$grobs[[leg]]
+  return(legend)}
+
+p2_legend <- get_legend(puORF_NMD_box)
+
+p3 = grid.arrange(pALL_box + theme(legend.position="none"),
+                  pUCG_box + theme(legend.position="none"),
+                  pNMD_box + theme(legend.position="none"),
+                  puORF_NMD_box+ theme(legend.position="none"),
+                  p2_legend,
+                  layout_matrix=rbind(c(1,2,3,4,5)),
+                  top=textGrob("Figure 5 decay rate of NMD targets vs uORF-containing genes in mutants", gp=gpar(fontsize=12), x = 0, hjust = 0))
+
+# ggsave("~/Desktop/uORFs_miRNA/Figures_May052021/Figure 5 decay rate of NMD targets vs uORF-containing genes in mutants.pdf",
+#        plot = p3,
+#        units = "in",
+#        width = 10.5,
+#        height = 4)
+```
