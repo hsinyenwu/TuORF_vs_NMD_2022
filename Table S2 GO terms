@@ -1,0 +1,20 @@
+```
+##################################################
+# Figure 1: Heat maps for uORF genes GO term     #
+##################################################
+rm(list=ls())
+Exp <- read.delim(file="~/Desktop/uORFs_miRNA/ORFs_max_filt_Araport_both_round_reads",header=T,stringsAsFactors=F,sep="\t")
+Exp_uORFs <- Exp %>% filter(category=="uORF")
+Exp_no_uORFs <- Exp %>% filter(!(gene_id %in% Exp_uORFs$gene_id))
+nrow(Exp_uORFs) #2093
+nrow(Exp_no_uORFs) #34647
+Exp_uORFs_g_id <- unique(Exp_uORFs$gene_id)
+Exp_no_uORFs_g_id <- unique(Exp_no_uORFs$gene_id)
+library(clipr)
+write_clip(Exp_uORFs_g_id)
+write_clip(Exp_no_uORFs_g_id)
+
+```
+Use TAIR website for GO term analysis
+We can also use AgriGO2 website and use rest of genes in ORFs_max_filt as control.
+
