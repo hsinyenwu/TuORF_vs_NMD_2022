@@ -1,7 +1,6 @@
 ```
-#Add NMD target & uORF gene group
 #############################################
-# Decay rates in different mutants vs NMD targets, uORF genes, other genes
+# Z: Decay rates in different mutants vs NMD targets, uORF genes, other genes
 #############################################
 rm(list=ls())
 library(dbplyr)
@@ -22,6 +21,8 @@ Exp_uORFs <- Exp %>% filter(category=="uORF")
 Exp_uORFs$pept_length <- nchar(Exp_uORFs$ORF_pept)
 Exp_uORFs$dist_to_main <- Exp_uORFs$annotated_start-Exp_uORFs$stop_pos
 Exp_uORFs_NMD <- Exp_uORFs %>% filter(gene_id %in% NMD$gene_id)
+
+NMD <- NMD %>% filter(!(gene_id %in% Exp_uORFs$gene_id))
 # Exp_uORFs_NMD
 Exp_uORFs_not_NMD <- Exp_uORFs %>% filter(!(gene_id %in% NMD$gene_id))
 wilcox.test(x=Exp_uORFs_not_NMD$pept_length, y=Exp_uORFs_NMD$pept_length)
@@ -42,24 +43,11 @@ median(Exp_uORFs_NMD$n_exons) #5
 
 #melt decay rate 
 mdecay <- melt(decay, id="gene_id")
-
-
-#organizing uORF+NMDt dataset
-WT_uORFNMDt <- mdecay %>% filter(variable=="WT") %>% filter(gene_id %in% Exp_uORFs$gene_id) %>% filter(gene_id %in% NMD$gene_id)
-sov_uORFNMDt <- mdecay %>% filter(variable=="sov") %>% filter(gene_id %in% Exp_uORFs$gene_id) %>% filter(gene_id %in% NMD$gene_id)
-vcs_uORFNMDt <- mdecay %>% filter(variable=="vcs") %>% filter(gene_id %in% Exp_uORFs$gene_id) %>% filter(gene_id %in% NMD$gene_id)
-vcs.sov_uORFNMDt <- mdecay %>% filter(variable=="vcs.sov") %>% filter(gene_id %in% Exp_uORFs$gene_id) %>% filter(gene_id %in% NMD$gene_id)
-WT_uORFNMDt$Category <- "uORF&NMDt"
-sov_uORFNMDt$Category <- "uORF&NMDt"
-vcs_uORFNMDt$Category <- "uORF&NMDt"
-vcs.sov_uORFNMDt$Category <- "uORF&NMDt"
-
-
 #organizing uORF dataset
-WT_uORF <- mdecay %>% filter(variable=="WT") %>% filter(gene_id %in% Exp_uORFs$gene_id) %>% filter(!(gene_id %in% NMD$gene_id))
-sov_uORF <- mdecay %>% filter(variable=="sov") %>% filter(gene_id %in% Exp_uORFs$gene_id) %>% filter(!(gene_id %in% NMD$gene_id))
-vcs_uORF <- mdecay %>% filter(variable=="vcs") %>% filter(gene_id %in% Exp_uORFs$gene_id) %>% filter(!(gene_id %in% NMD$gene_id))
-vcs.sov_uORF <- mdecay %>% filter(variable=="vcs.sov") %>% filter(gene_id %in% Exp_uORFs$gene_id) %>% filter(!(gene_id %in% NMD$gene_id))
+WT_uORF <- mdecay %>% filter(variable=="WT") %>% filter(gene_id %in% Exp_uORFs$gene_id)
+sov_uORF <- mdecay %>% filter(variable=="sov") %>% filter(gene_id %in% Exp_uORFs$gene_id)
+vcs_uORF <- mdecay %>% filter(variable=="vcs") %>% filter(gene_id %in% Exp_uORFs$gene_id)
+vcs.sov_uORF <- mdecay %>% filter(variable=="vcs.sov") %>% filter(gene_id %in% Exp_uORFs$gene_id)
 WT_uORF$Category <- "uORF-containing genes"
 sov_uORF$Category <- "uORF-containing genes"
 vcs_uORF$Category <- "uORF-containing genes"
@@ -75,6 +63,16 @@ sov_NMD$Category <- "NMD targets"
 vcs_NMD$Category <- "NMD targets"
 vcs.sov_NMD$Category <- "NMD targets"
 
+#organizing NMD and uORF dataset
+WT_NMDt_TuORF <- mdecay %>% filter(variable=="WT") %>% filter(gene_id %in% Exp_uORFs_NMD$gene_id)
+sov_NMDt_TuORF <- mdecay %>% filter(variable=="sov") %>% filter(gene_id %in% Exp_uORFs_NMD$gene_id)
+vcs_NMDt_TuORF <- mdecay %>% filter(variable=="vcs") %>% filter(gene_id %in% Exp_uORFs_NMD$gene_id)
+vcs.sov_NMDt_TuORF <- mdecay %>% filter(variable=="vcs.sov") %>% filter(gene_id %in% Exp_uORFs_NMD$gene_id)
+WT_NMDt_TuORF$Category <- "NMDt with TuORFs"
+sov_NMDt_TuORF$Category <- "NMDt with TuORFs"
+vcs_NMDt_TuORF$Category <- "NMDt with TuORFs"
+vcs.sov_NMDt_TuORF$Category <- "NMDt with TuORFs"
+
 #organizing other genes dataset
 WT_Others <- mdecay %>% filter(variable=="WT") %>% filter(!(gene_id %in% Exp_uORFs$gene_id) & !(gene_id %in% NMD$gene_id))
 sov_Others <- mdecay %>% filter(variable=="sov") %>% filter(!(gene_id %in% Exp_uORFs$gene_id) & !(gene_id %in% NMD$gene_id))
@@ -85,61 +83,55 @@ sov_Others$Category <- "Others"
 vcs_Others$Category <- "Others"
 vcs.sov_Others$Category <- "Others"
 
-WT_df <- rbind(WT_Others,WT_uORF,WT_NMD,WT_uORFNMDt)
-sov_df <- rbind(sov_Others,sov_uORF,sov_NMD,sov_uORFNMDt)
-vcs_df <- rbind(vcs_Others,vcs_uORF,vcs_NMD,vcs_uORFNMDt)
-vcs.sov_df <- rbind(vcs.sov_Others,vcs.sov_uORF,vcs.sov_NMD,vcs.sov_uORFNMDt)
+WT_df <- rbind(WT_Others,WT_uORF,WT_NMD,WT_NMDt_TuORF)
+sov_df <- rbind(sov_Others,sov_uORF,sov_NMD,sov_NMDt_TuORF)
+vcs_df <- rbind(vcs_Others,vcs_uORF,vcs_NMD,vcs_NMDt_TuORF)
+vcs.sov_df <- rbind(vcs.sov_Others,vcs.sov_uORF,vcs.sov_NMD,vcs.sov_NMDt_TuORF)
 
-WT_df$Category <- factor(WT_df$Category, levels=c("NMD targets", "uORF-containing genes","uORF&NMDt", "Others"), labels=c("NMD targets", "uORF genes","NMDts w TuORFs", "Others"))
-sov_df$Category <- factor(sov_df$Category, levels=c("NMD targets", "uORF-containing genes","uORF&NMDt", "Others"), labels=c("NMD targets", "uORF genes","NMDts w TuORFs", "Others"))
-vcs_df$Category <- factor(vcs_df$Category, levels=c("NMD targets", "uORF-containing genes","uORF&NMDt", "Others"), labels=c("NMD targets", "uORF genes","NMDts w TuORFs", "Others"))
-vcs.sov_df$Category <- factor(vcs.sov_df$Category, levels=c("NMD targets", "uORF-containing genes","uORF&NMDt", "Others"), labels=c("NMD targets", "uORF genes","NMDts w TuORFs", "Others"))
-
-#
-WT_df %>% group_by(Category) %>% summarise(median=median(value)/0.00612)
-sov_df %>% group_by(Category) %>% summarise(median=median(value)/0.00675)
-vcs_df %>% group_by(Category) %>% summarise(median=median(value)/0.00481)
-vcs.sov_df %>% group_by(Category) %>% summarise(median=median(value)/0.00394)
+WT_df$Category <- factor(WT_df$Category, levels=c("NMD targets", "uORF-containing genes", "NMDt with TuORFs", "Others"), labels=c("NMD targets", "uORF genes", "NMDt_TuORF", "Others"))
+sov_df$Category <- factor(sov_df$Category, levels=c("NMD targets", "uORF-containing genes", "NMDt with TuORFs", "Others"), labels=c("NMD targets", "uORF genes", "NMDt_TuORF", "Others"))
+vcs_df$Category <- factor(vcs_df$Category, levels=c("NMD targets", "uORF-containing genes", "NMDt with TuORFs", "Others"), labels=c("NMD targets", "uORF genes", "NMDt_TuORF", "Others"))
+vcs.sov_df$Category <- factor(vcs.sov_df$Category, levels=c("NMD targets", "uORF-containing genes", "NMDt with TuORFs", "Others"), labels=c("NMD targets", "uORF genes", "NMDt_TuORF", "Others"))
 
 pWT <- ggplot(WT_df, aes(x=value,color=Category))+
   stat_ecdf(geom = "step")+
-  xlim(0,0.025)+xlab("Decay Rate")+ylab("Fraction of Genes")+labs(tag = "A") +
+  xlim(0,0.03)+xlab("Decay Rate")+ylab("Fraction of Genes")+labs(tag = "A") +
   theme_classic() + theme(text = element_text(size=12), 
                           plot.title = element_text(hjust = 0.5, size = 12),
                           legend.text = element_text(size=12)) + 
   ggtitle("Col-0") +
-  scale_colour_discrete("Category",labels=c("NMD targets","uORF genes","Others"))
+  scale_colour_discrete("Category",labels=c("NMD targets","uORF genes","NMDt with TuORFs","Others"))
 pWT 
 
 psov <- ggplot(sov_df, aes(x=value,color=Category))+
   stat_ecdf(geom = "step")+
-  xlim(0,0.025)+xlab("Decay Rate")+ylab("Fraction of Genes")+labs(tag = "B") +
+  xlim(0,0.03)+xlab("Decay Rate")+ylab("Fraction of Genes")+labs(tag = "B") +
   theme_classic() + theme(text = element_text(size=12), 
                           plot.title = element_text(hjust = 0.5, size = 12, face = "italic"),
                           legend.text = element_text(size=12)) + 
   ggtitle("sov") +
-  scale_colour_discrete("Category",labels=c("NMD targets","uORF genes","Others"))
+  scale_colour_discrete("Category",labels=c("NMD targets","uORF genes","NMDt with TuORFs","Others"))
 psov
 
 pvcs <- ggplot(vcs_df, aes(x=value,color=Category))+
   stat_ecdf(geom = "step")+
-  xlim(0,0.025)+xlab("Decay Rate")+ylab("Fraction of Genes")+labs(tag = "C") +
+  xlim(0,0.03)+xlab("Decay Rate")+ylab("Fraction of Genes")+labs(tag = "C") +
   theme_classic() + theme(text = element_text(size=12), 
                           plot.title = element_text(hjust = 0.5, size = 12, face = "italic"),
                           legend.text = element_text(size=12)) + 
   ggtitle("vcs") +
-  scale_colour_discrete("Category",labels=c("NMD targets","uORF genes","Others"))
+  scale_colour_discrete("Category",labels=c("NMD targets","uORF genes","NMDt with TuORFs","Others"))
 pvcs
 
 pvcs.sov <- ggplot(vcs.sov_df, aes(x=value,color=Category))+
   stat_ecdf(geom = "step")+
-  xlim(0,0.025)+xlab("Decay Rate")+ylab("Fraction of Genes")+labs(tag = "D") +
+  xlim(0,0.03)+xlab("Decay Rate")+ylab("Fraction of Genes")+labs(tag = "D") +
   theme_classic() + theme(text = element_text(size=12), 
                           plot.title = element_text(hjust = 0.5, size = 12, face = "italic"),
                           legend.text = element_text(size=12),
                           legend.title = element_text(size=12)) + 
   ggtitle("vcs.sov") +
-  scale_colour_discrete("Category",labels=c("NMD targets","uORF genes","Others"))
+  scale_colour_discrete("Category",labels=c("NMD targets","uORF genes","NMDt with TuORFs","Others"))
 pvcs.sov
 
 get_legend<-function(a.gplot){
@@ -158,11 +150,13 @@ p3 =grid.arrange(pWT + theme(legend.position="none"),
                  layout_matrix=rbind(c(1,2,3,4,5)),
                  top=textGrob("mRNA decay rates for NMD targets, uORF genes and others in WT and mutants",gp = gpar(fontsize = 14, fontface = "bold")))
 
-# ggsave("~/Desktop/NMD_Nature_Plants/figures/Figure X. mRNA decay rates for uORF genes NMD-targets in wt and decay mutants.pdf",
-#        plot = p3,
-#        units = "in",
-#        width = 13,
-#        height = 3.5)
+
+# 
+ggsave("~/Desktop/NMD_revise/Figures/Figure 6X. mRNA decay rates for uORF genes NMD-targets in wt and decay mutants_NMDt_rm_TuORFs.pdf",
+       plot = p3,
+       units = "in",
+       width = 13,
+       height = 3.5)
 
 
 #######################
@@ -182,7 +176,7 @@ oneway.test(value ~ Category, data = WT_df, var.equal = FALSE)
 
 stat.test <- WT_df %>%
   wilcox_test(value ~ Category) %>% 
-  adjust_pvalue(method = "BY") %>%
+  adjust_pvalue(method = "BY")%>%
   add_significance("p.adj")
 stat.test
 
@@ -192,7 +186,7 @@ bxp <- ggboxplot(WT_df,
                  color = "Category", 
                  outlier.shape=NA,
                  notch = FALSE,
-                 ylim=c(-0.002,0.037),
+                 ylim=c(-0.002,0.040),
                  legend = "right") + 
   geom_hline(yintercept=median(WT_df$value[WT_df$Category=="Others"],na.rm=T), linetype="dashed", color = "grey30", size=0.5) +
   rotate_x_text(angle = 45) + 
@@ -218,7 +212,7 @@ yvalue <- function(ystart,stepsize,num) {
   return(Ev)
 }
 
-vsteps <- yvalue(ystart=0.028,stepsize=0.0015,num=6)
+vsteps <- yvalue(ystart=0.028,stepsize=0.0017,num=6)
 
 pWT_box <- bxp + 
   stat_pvalue_manual(stat.test, label = "p.adj.signif", tip.length = 0.002, y.position = vsteps, hide.ns = FALSE) +
@@ -249,7 +243,7 @@ bxp <- ggboxplot(sov_df,
                  color = "Category", 
                  outlier.shape=NA,
                  notch = FALSE,
-                 ylim=c(-0.002,0.037),
+                 ylim=c(-0.002,0.040),
                  legend = "right") + 
   geom_hline(yintercept=median(sov_df$value[sov_df$Category=="Others"],na.rm=T), linetype="dashed", color = "grey30", size=0.5) +
   rotate_x_text(angle = 45) + 
@@ -275,7 +269,7 @@ yvalue <- function(ystart,stepsize,num) {
   return(Ev)
 }
 
-vsteps <- yvalue(ystart=0.028,stepsize=0.0015,num=6)
+vsteps <- yvalue(ystart=0.028,stepsize=0.0017,num=6)
 
 psov_box <- bxp + 
   stat_pvalue_manual(stat.test, label = "p.adj.signif", tip.length = 0.002, y.position = vsteps, hide.ns = FALSE) +
@@ -307,7 +301,7 @@ bxp <- ggboxplot(vcs_df,
                  color = "Category", 
                  outlier.shape=NA,
                  notch = FALSE,
-                 ylim=c(-0.002,0.037),
+                 ylim=c(-0.002,0.040),
                  legend = "right") + 
   geom_hline(yintercept=median(vcs_df$value[vcs_df$Category=="Others"],na.rm=T), linetype="dashed", color = "grey30", size=0.5) +
   rotate_x_text(angle = 45) + 
@@ -333,7 +327,7 @@ yvalue <- function(ystart,stepsize,num) {
   return(Ev)
 }
 
-vsteps <- yvalue(ystart=0.028,stepsize=0.0015,num=6)
+vsteps <- yvalue(ystart=0.028,stepsize=0.0017,num=6)
 
 pvcs_box <- bxp + 
   stat_pvalue_manual(stat.test, label = "p.adj.signif", tip.length = 0.002, y.position = vsteps, hide.ns = FALSE) +
@@ -363,7 +357,7 @@ bxp <- ggboxplot(vcs.sov_df,
                  color = "Category", 
                  outlier.shape=NA,
                  notch = FALSE,
-                 ylim=c(-0.002,0.037),
+                 ylim=c(-0.002,0.040),
                  legend = "right") + 
   geom_hline(yintercept=median(vcs.sov_df$value[vcs.sov_df$Category=="Others"],na.rm=T), linetype="dashed", color = "grey30", size=0.5) +
   rotate_x_text(angle = 45) + 
@@ -389,7 +383,7 @@ yvalue <- function(ystart,stepsize,num) {
   return(Ev)
 }
 
-vsteps <- yvalue(ystart=0.028,stepsize=0.0015,num=6)
+vsteps <- yvalue(ystart=0.028,stepsize=0.0017,num=6)
 
 pvcs.sov_box <- bxp + 
   stat_pvalue_manual(stat.test, label = "p.adj.signif", tip.length = 0.002, y.position = vsteps, hide.ns = FALSE) +
@@ -412,9 +406,12 @@ p3 = grid.arrange(pWT_box + theme(legend.position="none"),
                   layout_matrix=rbind(c(1,2,3,4,5)),
                   top=textGrob("mRNA decay rates for uORF genes NMD-targets in wt and decay mutants",gp = gpar(fontsize = 14, fontface = "bold")))
 
-ggsave("~/Desktop/atRTD3/Figure mRNA decay rates for uORF genes NMD-targets in wt and decay mutants2.pdf",
+ggsave("~/Desktop/NMD_revise/Figures/Figure 6X. boxplot mRNA decay rates for uORF genes NMD-targets in wt and decay mutants NMDt_rm_TuORFs.pdf",
        plot = p3,
        units = "in",
-       width = 14.5,
+       width = 13,
        height = 3.5)
+
+
+
 ```
