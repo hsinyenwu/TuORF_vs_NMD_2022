@@ -93,6 +93,11 @@ sov_df$Category <- factor(sov_df$Category, levels=c("NMD targets", "uORF-contain
 vcs_df$Category <- factor(vcs_df$Category, levels=c("NMD targets", "uORF-containing genes", "NMDt with TuORFs", "Others"), labels=c("NMD targets", "uORF genes", "NMDt_TuORF", "Others"))
 vcs.sov_df$Category <- factor(vcs.sov_df$Category, levels=c("NMD targets", "uORF-containing genes", "NMDt with TuORFs", "Others"), labels=c("NMD targets", "uORF genes", "NMDt_TuORF", "Others"))
 
+WT_df %>% group_by(Category) %>% dplyr::summarise(median=median(value)/0.00612)
+sov_df %>% group_by(Category) %>% dplyr::summarise(median=median(value)/0.00675)
+vcs_df %>% group_by(Category) %>% dplyr::summarise(median=median(value)/0.00481)
+vcs.sov_df %>% group_by(Category) %>% dplyr::summarise(median=median(value)/0.00394)
+
 pWT <- ggplot(WT_df, aes(x=value,color=Category))+
   stat_ecdf(geom = "step")+
   xlim(0,0.03)+xlab("Decay Rate")+ylab("Fraction of Genes")+labs(tag = "A") +
