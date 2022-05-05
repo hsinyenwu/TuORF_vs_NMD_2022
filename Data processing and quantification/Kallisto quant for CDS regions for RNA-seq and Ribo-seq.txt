@@ -1,0 +1,32 @@
+```
+#Make fasta with gffread
+#$GTF: path to the GTF file
+#$OUTPUT, directory for output
+gffread $GTF -g $FASTA -w $OUTPUT/Araport11_20181206_CDS_only.fasta
+```
+
+```
+#kallisto version 0.46.1
+#Make index for RNA-seq
+kallisto index -i $OUTPUT/transcripts.idx $FASTA
+#Make index for Ribo-seq
+kallisto index -i $OUTPUT2/transcripts.idx $FASTA -k 21
+```
+
+```
+#Quant RNA-seq with Kallisto quant
+#$Index: path to index file
+#$INPUT: directory with input files
+#$OUTPUT: directory for output
+#$DATA: variable for input files e.g. D1, D2, D3, ...
+kallisto quant -i $Index/transcripts.idx -o $OUTPUT -t 10 $INPUT/$DATA.r1.fastq.gz $INPUT/$DATA.r2.fastq.gz
+```
+
+```
+#Quant Ribo-seq with Kallisto quant
+#$Index: path to index file
+#$INPUT: directory with input files
+#$OUTPUT: directory for output
+#$DATA: variable for input files e.g. D1, D2, D3, ...
+kallisto quant -i $Index/transcripts.idx -o $OUTPUT -t 10 --single -l 28 -s 2 $INPUT/$DATA.noContam4.fastq.gz
+```
