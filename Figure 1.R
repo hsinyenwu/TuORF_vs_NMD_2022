@@ -1,4 +1,5 @@
 ```
+# Figure 1D read diversity
 # To determine the diversity of read counts in our new data versus the root and shoot data from Hsu et al. 2016, 
 # we randomly select 1 to 10 million ribo-seq reads mapped to chromosome 1 in the three datasets and identified the number of unique P-sites. 
 # The more unique P-sites suggest more diverse ribosome footprints.
@@ -63,4 +64,7 @@ p3 <- ggplot(df, aes(x=total_read,y=distinct_p_site, colour = Samples)) +
   labs(x="Million footprint counts",y="Million distinct P-sites in 20M samples")
 p3
 ggsave("~/Desktop/atRTD3/Footprint_diversity3.pdf") 
+
 ```
+
+
