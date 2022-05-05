@@ -1,0 +1,67 @@
+#!/bin/bash -l
+#SBATCH -n 12 --time=00:15:00 --mem=30gb
+#SBATCH -J STAR_index
+#SBATCH --output=STAR1_RNA_Ribo_index.out
+
+# first, switch to the directory from which is qsub was submitted
+cd ${SLURM_SUBMIT_DIR}
+
+# output information about how this job is running
+echo "This job is running on $HOSTNAME on `date`"
+
+############################################
+FASTA=/mnt/research/riboplant/Reference/TAIR10_chr_all_2.fas
+#GTF=/mnt/home/larrywu/Kyle/annotation/Araport_LR_SR_selected_classes.gtf
+#GTF=/mnt/home/larrywu/CTRL_arabidopsis/data/assembledGTF/Araport11+CTRL_20181206_expressed.gtf
+GTF=/mnt/home/larrywu/ABA/20181206/reference/Araport11_20181206.gtf
+##########
+module purge
+module load GCC/6.4.0-2.28  OpenMPI/2.1.2
+module load STAR/2.6.0c
+
+###############
+## RNA index ##
+###############
+
+newINDEX=/mnt/home/larrywu/Kyle_CTRL/analysis_Araport11_1st+2nd_Riboseq/STAR1_Index/RNA
+
+###########################################
+# Generate index with ITAG3.2
+mkdir -p $newINDEX
+cd $newINDEX
+
+echo "Generate index with  for STAR"
+STAR --runThreadN 12 \
+--runMode genomeGenerate \
+--genomeDir $newINDEX \
+--genomeFastaFiles $FASTA \
+--sjdbGTFfile $GTF \
+--sjdbOverhang 99 \
+
+###############
+## Ribo index ##
+###############
+
+newINDEX=/mnt/home/larrywu/Kyle_CTRL/analysis_Araport11_1st+2nd_Riboseq/STAR1_Index/Ribo
+
+###########################################
+# Generate index with ITAG3.2
+mkdir -p $newINDEX
+cd $newINDEX
+
+echo "Generate index with  for STAR"
+STAR --runThreadN 12 \
+--runMode genomeGenerate \
+--genomeDir $newINDEX \
+--genomeFastaFiles $FASTA \
+--sjdbGTFfile $GTF \
+--sjdbOverhang 34 \
+
+############################################
+# output details
+echo "details of the job and queue"
+echo ---------
+
+#####################
+scontrol show job ${SLURM_JOBID}
+

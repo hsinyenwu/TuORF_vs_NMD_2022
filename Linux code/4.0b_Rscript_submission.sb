@@ -1,0 +1,24 @@
+#!/bin/bash -l
+#SBATCH -n 1 -N 1 --time=45:00:00 --mem=40gb
+#SBATCH -J RNAfold_mORF
+#SBATCH --output=4.0a_RNAfold_MFE.out
+#SBATCH --mail-user=larrywu@msu.edu
+#SBATCH --mail-type=FAIL,BEGIN,END
+
+# output information about how this job is running
+echo "This job is running on $HOSTNAME on `date`"
+
+module purge
+module load GCC/8.3.0  OpenMPI/3.1.4
+module load R/4.1.0
+
+cd /mnt/home/larrywu/Kyle_CTRL/analysis_Araport11_1st+2nd_Riboseq/RNA_MFE
+
+Rscript /mnt/home/larrywu/Kyle_CTRL/code_Araport11_1st+2nd_Riboseq/4.0a_RNAFold_MFE.R
+
+############################################
+# output details
+echo "details of the job and queue"
+echo ---------
+
+scontrol show job ${SLURM_JOBID}

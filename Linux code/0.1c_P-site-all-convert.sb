@@ -1,0 +1,16 @@
+#!/bin/bash -l
+#SBATCH -n 1 --time=15:00:00 --mem=30gb
+#SBATCH -J P-site-all-convert
+#SBATCH --output=P-site-all-convert.out
+
+cut -f 1,3,6 /mnt/home/larrywu/Kyle_CTRL/analysis_Araport11_1st+2nd_Riboseq/RiboTaper_CTRL_merged/P_sites_all | sort | uniq -c | sed -r 's/^( *[^ ]+) +/\1\t/' > /mnt/home/larrywu/Kyle_CTRL/analysis_Araport11_1st+2nd_Riboseq/RiboTaper_CTRL_merged/P_sites_all_processed
+
+#cut -f 1,3,6 $P_all/P_sites_all_132M | sort | uniq -c | sed -r 's/^( *[^ ]+) +/\1\t/' > $P_all/CTRL_expressed_132M_P_sites_sort_count
+
+############################################
+# output details
+echo "details of the job and queue"
+echo ---------
+
+scontrol show job ${SLURM_JOBID}
+

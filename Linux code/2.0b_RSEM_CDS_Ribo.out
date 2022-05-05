@@ -1,0 +1,6 @@
+This job is running on amr-175 on Thu Apr 22 13:18:00 EDT 2021
+rsem-parse-alignments /mnt/home/larrywu/Kyle_CTRL/analysis_Araport11_1st+2nd_Riboseq/RSEM_CDS_Ribo_index CDS_Ribo.temp/CDS_Ribo CDS_Ribo.stat/CDS_Ribo /mnt/home/larrywu/Kyle_CTRL/analysis_Araport11_1st+2nd_Riboseq/STAR_CDS/Ribo_CTRL_merged/star_riboAligned.toTranscriptome.out.bam 3 -tag XM
+Cannot open /mnt/home/larrywu/Kyle_CTRL/analysis_Araport11_1st+2nd_Riboseq/RSEM_CDS_Ribo_index.grp! It may not exist.
+"rsem-parse-alignments /mnt/home/larrywu/Kyle_CTRL/analysis_Araport11_1st+2nd_Riboseq/RSEM_CDS_Ribo_index CDS_Ribo.temp/CDS_Ribo CDS_Ribo.stat/CDS_Ribo /mnt/home/larrywu/Kyle_CTRL/analysis_Araport11_1st+2nd_Riboseq/STAR_CDS/Ribo_CTRL_merged/star_riboAligned.toTranscriptome.out.bam 3 -tag XM" failed! Plase check if you provide correct parameters/options for the pipeline!
+details of the job and queue
+---------

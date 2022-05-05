@@ -1,0 +1,35 @@
+This job is running on amr-220 on Thu Apr 22 13:18:00 EDT 2021
+rsem-parse-alignments /mnt/home/larrywu/Kyle_CTRL/analysis_Araport11_1st+2nd_Riboseq/RSEM_CDS_RNA_index CDS_RNA.temp/CDS_RNA CDS_RNA.stat/CDS_RNA /mnt/home/larrywu/Kyle_CTRL/analysis_Araport11_1st+2nd_Riboseq/STAR_CDS/RNA_CTRL_merged/star_RNA_Aligned.toTranscriptome.out.bam 3 -tag XM
+Cannot open /mnt/home/larrywu/Kyle_CTRL/analysis_Araport11_1st+2nd_Riboseq/RSEM_CDS_RNA_index.grp! It may not exist.
+"rsem-parse-alignments /mnt/home/larrywu/Kyle_CTRL/analysis_Araport11_1st+2nd_Riboseq/RSEM_CDS_RNA_index CDS_RNA.temp/CDS_RNA CDS_RNA.stat/CDS_RNA /mnt/home/larrywu/Kyle_CTRL/analysis_Araport11_1st+2nd_Riboseq/STAR_CDS/RNA_CTRL_merged/star_RNA_Aligned.toTranscriptome.out.bam 3 -tag XM" failed! Plase check if you provide correct parameters/options for the pipeline!
+details of the job and queue
+---------
+JobId=21848761 JobName=RSEM_RNA
+   UserId=larrywu(937557) GroupId=biochem(2005) MCS_label=N/A
+   Priority=14142 Nice=0 Account=pollyhsu QOS=normal
+   JobState=RUNNING Reason=None Dependency=(null)
+   Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
+   RunTime=00:00:07 TimeLimit=1-12:00:00 TimeMin=N/A
+   SubmitTime=2021-04-22T13:16:24 EligibleTime=2021-04-22T13:16:24
+   AccrueTime=2021-04-22T13:16:24
+   StartTime=2021-04-22T13:17:55 EndTime=2021-04-24T01:17:55 Deadline=N/A
+   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2021-04-22T13:17:55
+   Partition=pollyhsu AllocNode:Sid=dev-intel18:29053
+   ReqNodeList=(null) ExcNodeList=(null)
+   NodeList=amr-220
+   BatchHost=amr-220
+   NumNodes=1 NumCPUs=10 NumTasks=10 CPUs/Task=1 ReqB:S:C:T=0:0:*:*
+   TRES=cpu=10,mem=80G,node=1,billing=12451
+   Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*
+   MinCPUsNode=1 MinMemoryNode=80G MinTmpDiskNode=0
+   Features=[intel14|intel16|intel18|amr|nvf] DelayBoot=00:00:00
+   OverSubscribe=OK Contiguous=0 Licenses=(null) Network=(null)
+   Command=/mnt/ufs18/home-024/larrywu/Kyle_CTRL/code_Araport11_1st+2nd_Riboseq/2.0b_RSEM_RNA_quant.sb
+   WorkDir=/mnt/ufs18/home-024/larrywu/Kyle_CTRL/code_Araport11_1st+2nd_Riboseq
+   Comment=stdout=/mnt/ufs18/home-024/larrywu/Kyle_CTRL/code_Araport11_1st+2nd_Riboseq/2.0b_RSEM_CDS_RNA.out 
+   StdErr=/mnt/ufs18/home-024/larrywu/Kyle_CTRL/code_Araport11_1st+2nd_Riboseq/2.0b_RSEM_CDS_RNA.out
+   StdIn=/dev/null
+   StdOut=/mnt/ufs18/home-024/larrywu/Kyle_CTRL/code_Araport11_1st+2nd_Riboseq/2.0b_RSEM_CDS_RNA.out
+   Power=
+   NtasksPerTRES:0
+

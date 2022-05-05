@@ -1,0 +1,42 @@
+#!/bin/bash -l
+#SBATCH -n 1 --time=2:00:00 --mem=30gb
+#SBATCH -J RibT_anno
+#SBATCH --output=RiboTaper_annotation.out
+
+# first, switch to the directory from which is qsub was submitted
+cd ${SLURM_SUBMIT_DIR}
+
+# output information about how this job is running
+echo "This job is running on $HOSTNAME on `date`"
+
+# set up enviroment variables
+
+############################################
+SOFTWARE=/mnt/research/riboplant/Software
+#GTF=/mnt/home/larrywu/CTRL_arabidopsis/data/assembledGTF/Araport11+CTRL_20181206_expressed.gtf
+GTF=/mnt/home/larrywu/ABA/20181206/reference/Araport11_20181206.gtf
+FASTA=/mnt/research/riboplant/Reference/TAIR10_chr_all_2.fas #Watch out how the chromosome number is named! Here is 0, 1, 2, ...
+OUTPUT=/mnt/home/larrywu/Kyle_CTRL/analysis_Araport11_1st+2nd_Riboseq/RiboTaper_annotation
+BEDTOOL=/mnt/home/larrywu/Software/bedtools_dir
+###############################################################
+
+module purge
+#module load GCC/6.4.0-2.28  OpenMPI/2.1.1
+module load icc/2017.4.196-GCC-6.4.0-2.28  impi/2017.3.196 
+module load R/3.4.3-X11-20171023
+
+#export PATH=$PATH:/mnt/home/larrywu/Software/bedtools_dir
+
+mkdir -p $OUTPUT
+cd $OUTPUT
+
+# create_annotation_files.bash <gencode_gtf_file> <genome_fasta_file(indexed)> <use_ccdsid?> <use_appris?> <dest_folder> <bedtools_path> <scripts_dir>
+
+$SOFTWARE/RiboTaper_v1.3/scripts/create_annotations_files.bash $GTF $FASTA false false $OUTPUT $BEDTOOL $SOFTWARE/RiboTaper_v1.3/scripts/
+
+############################################
+# output details
+echo "details of the job and queue"
+echo ---------
+
+scontrol show job ${SLURM_JOB_ID}

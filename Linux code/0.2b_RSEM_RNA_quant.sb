@@ -1,0 +1,34 @@
+#!/bin/bash -l
+#SBATCH -n 10 -N 1 --time=24:00:00 --mem=80gb
+#SBATCH -J RSEM_RNA
+#SBATCH --output=RSEM_whole_tx_RNA.out
+
+# first, switch to the directory from which is qsub was submitted
+cd ${SLURM_SUBMIT_DIR}
+
+# output information about how this job is running
+echo "This job is running on $HOSTNAME on `date`"
+
+# set up enviroment variables
+IPNUT_RNA=/mnt/home/larrywu/Kyle_CTRL/analysis_Araport11_1st+2nd_Riboseq/STAR1/RNA_CTRL_merged
+OUTNUT_RNA=/mnt/home/larrywu/Kyle_CTRL/analysis_Araport11_1st+2nd_Riboseq/RSEM_RNA
+INDEX_RNA=/mnt/home/larrywu/Kyle_CTRL/analysis_Araport11_1st+2nd_Riboseq/RSEM_RNA_index
+
+mkdir -p $OUTNUT_RNA
+cd $OUTNUT_RNA
+
+module purge
+module load GCCcore/6.4.0
+module load RSEM/1.3.1
+
+rsem-calculate-expression \
+ --paired-end --bam --no-bam-output -p 10 --time \
+ --strandedness reverse \
+ --alignments $IPNUT_RNA/star_RNA_Aligned.toTranscriptome.out.bam $INDEX_RNA/RNA RNA
+
+####################################
+# output details
+echo "details of the job and queue"
+echo ---------
+
+scontrol show job ${SLURM_JOB_ID}

@@ -1,0 +1,48 @@
+#!/bin/bash -l
+#SBATCH -n 8 -N 1 --time=60:00:00 --mem=100gb
+#SBATCH -J RibT_Run
+#SBATCH --mail-user=larrywu@msu.edu
+#SBATCH --mail-type=FAIL,BEGIN,END
+#SBATCH -o RiboTaper_CTRL_Araport_1st+2nd_run_20220309.out
+#SBATCH -e RiboTaper_CTRL_Araport_1st+2nd_run_20220309.err
+
+# output information about how this job is running
+echo "This job is running on $HOSTNAME on `date`"
+
+# set up enviroment variables
+
+TAPER=/mnt/research/riboplant/Software/RiboTaper_v1.3/scripts
+RNA=/mnt/home/larrywu/Kyle_CTRL/analysis_Araport11_1st+2nd_Riboseq/STAR1/RNA_CTRL_merged
+RIBO=/mnt/home/larrywu/Kyle_CTRL/analysis_Araport11_1st+2nd_Riboseq/STAR1/Ribo_CTRL_merged
+ANNO=/mnt/home/larrywu/Kyle_CTRL/analysis_Araport11_1st+2nd_Riboseq/RiboTaper_annotation
+BED=/mnt/home/larrywu/Software/bedtools_dir
+OUTPUT=/mnt/home/larrywu/Kyle_CTRL/analysis_Araport11_1st+2nd_Riboseq/RiboTaper_CTRL_merged_20220309
+###############################################################
+mkdir -p $OUTPUT
+cd $OUTPUT
+
+#Usage: ./Ribotaper.sh <Ribo_bamfile> <RNA_bamfile> <annotation_dir> <comma-sep_read_lenghts_ribo> <comma-sep_cutoffs> <scripts_dir> <bedtools_dir>  <n_cores> 
+
+#module purge
+#module load icc/2017.4.196-GCC-6.4.0-2.28  impi/2017.3.196
+#module load SAMtools/0.1.19
+#module load R/3.4.3-X11-20171023
+
+module purge
+module load GCC/6.4.0-2.28  OpenMPI/2.1.1
+module load SAMtools/0.1.19
+module load R/3.4.3-X11-20171023
+
+#module purge
+#module load GNU/6.4.0-2.28  OpenMPI/2.1.2
+#module load SAMtools/0.1.19
+#module load R/3.5.0-X11-20180131
+
+#$TAPER/Ribotaper.sh $RIBO/$ribo $RNA/$rna $ANNO 24,25,26,27,28 8,9,10,11,12 $TAPER $BED 8
+$TAPER/Ribotaper.sh $RIBO/star_riboAligned.sortedByCoord.out.bam $RNA/star_RNA_Aligned.sortedByCoord.out.bam $ANNO 24,25,26,27,28 8,9,10,11,12 $TAPER $BED 8
+############################################
+# output details
+echo "details of the job and queue"
+echo ---------
+
+scontrol show job ${SLURM_JOB_ID}
