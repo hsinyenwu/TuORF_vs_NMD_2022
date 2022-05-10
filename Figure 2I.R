@@ -1,3 +1,4 @@
+```
 rm(list=ls())
 library(openxlsx)
 library(dplyr)
@@ -55,3 +56,4 @@ ggplot(ORF_max_filt_uORF_RNA, aes(x=log2(TPM), y=log2(uORF_NC))) +
   geom_smooth(method=lm)+ theme_classic()  
 
 cor(log2(ORF_max_filt_uORF_RNA$TPM),log2(ORF_max_filt_uORF_RNA$uORF_NC)) #R=0.3994119 ~0.4
+```
