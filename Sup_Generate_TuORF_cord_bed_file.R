@@ -34,7 +34,9 @@ addCdsPhase <- function(cds_by_tx)
 }
 
 for(i in 1:nrow(Exp_uORFs)){
-  if(i%%100==0) print(i) 
+  #if(i%%100==0) print(i)
+  print(i)
+  gc()
   # a is the 5'UTR range for the ith uORF
   a=fiveUTR[Exp_uORFs$transcript_id[i]]
   # b is the CDS range for the ith uORF
