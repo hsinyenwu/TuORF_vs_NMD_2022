@@ -1,6 +1,7 @@
-```
+#############################################################################################
+# Figure S8: Freq Poly plot for NMD targets with or without TuORFs
+#############################################################################################
 rm(list=ls())
-
 library(reshape)
 library(dbplyr)
 library(reshape)
@@ -15,7 +16,6 @@ library(EnvStats)
 library(openxlsx)
 library(GenomicFeatures)
 library(GenomicRanges)
-
 
 #################################################
 # Find predicted uORFs, only from max isoforms
@@ -91,4 +91,4 @@ fpoly <- ggplot(Exp_uORFs_if_NMD,aes(x=ORF_pept_length,color=Category)) +
   geom_vline(data=mu, aes(xintercept=grp.mean, color=Category),linetype = 2,size=0.5)
 
 fpoly
-```
+
