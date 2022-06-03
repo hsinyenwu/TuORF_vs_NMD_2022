@@ -1,3 +1,6 @@
+#############################################################################################
+# Figure S1: Correlation of between RNA and Ribo-seq samples
+#############################################################################################
 # Use results from Kallisto quant for CDS regions
 library(ggplot2)
 library(corrplot)
