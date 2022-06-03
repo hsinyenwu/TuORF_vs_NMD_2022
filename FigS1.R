@@ -1,4 +1,3 @@
-```
 # Use results from Kallisto quant for CDS regions
 library(ggplot2)
 library(corrplot)
@@ -24,9 +23,8 @@ TPM=data.frame(RNAD1=RNAD1$tpm,RNAD2=RNAD2$tpm,RNAD3=RNAD3$tpm,RNAD5=RNAD5$tpm,R
 TPM$RNA_mean <-rowMeans(TPM[,1:6])
 TPM$Ribo_mean <-rowMeans(TPM[,7:12])
 
-TPM2 <- TPM %>% filter(RNA_mean>0.1,Ribo_mean>0.1) %>% filter(RNA_mean<200,Ribo_mean<200)
+TPM2 <- TPM %>% filter(RNA_mean>0.1,Ribo_mean>0.1) %>% filter(RNA_mean<100,Ribo_mean<100)
 
 R2 <- round(cor(TPM2[,1:12]),2)
 
 corrplot(R2, method = "number",type="upper")
-```
