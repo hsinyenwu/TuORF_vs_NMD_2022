@@ -71,7 +71,7 @@ pTE_CDS_hist
 
 pTE_CDS_fpoly <- ggplot(TE_CDS2,aes(x=RNA,color=Category)) +
   geom_freqpoly(binwidth = 1) +
-  xlim(c(0,5000)) +
+  xlim(c(0,100)) +
   theme_classic() + 
   xlab("RNA (TPM)")+
   ylab("Numbers") +
