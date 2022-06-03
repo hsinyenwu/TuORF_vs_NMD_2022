@@ -105,11 +105,11 @@ PLOTc("AT3G02470",isoform=3,NAME = "SAMDC1")
 # PLOTc("AT3G02470", isoform=3, uORF="AT3G02470", NAME = "SAMDC1")
 
 #Example gtf for AT3G02470
-```
+'''
 3	Araport11	mRNA	509096	511489	.	+	.	gene_id AT3G02470; transcript_id AT3G02470.3; gene_biotype protein_coding;
 3	rtracklayer	CDS	509815	509952	.	+	.	gene_id "AT3G02470"; transcript_id "AT3G02470.3";
 3	rtracklayer	CDS	510048	510068	.	+	.	gene_id "AT3G02470"; transcript_id "AT3G02470.3";
-```
+'''
 
 
 
