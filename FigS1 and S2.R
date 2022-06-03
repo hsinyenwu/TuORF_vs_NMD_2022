@@ -50,5 +50,11 @@ rna_bam.ribo(RNAseqBam1="~/Desktop/ABA/P_sites_all/RNA_DMSO60_merged.bam",
 
 PLOTc2("AT1G04020") #Figure S1B
 
+#############################################################################################
+# Figure S2: Plot TuORF genes with RiboPlotR
+#############################################################################################
+
+#Please see Figure 1F and 1G code
+#See here for generating TuORF gtf files: https://github.com/hsinyenwu/RiboPlotR_addition
 
 
