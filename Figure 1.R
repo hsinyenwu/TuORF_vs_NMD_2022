@@ -1,4 +1,17 @@
+#############################################################################################
+# Figure 1A meta plot for 3 nt periodicity
+#############################################################################################
+# Use the metaplot function from RiboTaper
+
+#############################################################################################
+# Figure 1B and 1C
+#############################################################################################
+# Performed using RiboseqQC (https://github.com/ohlerlab/RiboseQC)
+
+#############################################################################################
 # Figure 1D read diversity
+#############################################################################################
+
 # To determine the diversity of read counts in our new data versus the root and shoot data from Hsu et al. 2016, 
 # we randomly select 1 to 10 million ribo-seq reads mapped to chromosome 1 in the three datasets and identified the number of unique P-sites. 
 # The more unique P-sites suggest more diverse ribosome footprints.
@@ -63,6 +76,41 @@ p3 <- ggplot(df, aes(x=total_read,y=distinct_p_site, colour = Samples)) +
   labs(x="Million footprint counts",y="Million distinct P-sites in 20M samples")
 p3
 ggsave("~/Desktop/atRTD3/Footprint_diversity3.pdf") 
+
+#############################################################################################
+# Figure 1E ORF identified
+#############################################################################################
+
+
+#############################################################################################
+# Figure 1F,1G uORF examples
+#############################################################################################
+
+library(RiboPlotR)
+gene.structure(annotation="~/Desktop/CTRL_v1/Araport11+CTRL_20181206.gtf",format="gtf",dataSource="Araport",organism="Arabidopsis thaliana")
+
+rna_bam.ribo(RNAseqBam1="~/Desktop/CTRL_v1/RNA_CTRL_merged.bam",
+             Ribo1="/Users/wu/Desktop/CTRL_v1/CTRL_expressed_P_sites_sort_count",
+             RNAlab1="Ctrl_RNA count",
+             Ribolab1="Ctrl_ribo count",
+             S_NAME1="Ctrl",
+             RNAbackground="#FFFFE0",
+             RNAseqBamPaired="paired")
+PLOTc("AT1G05160",isoform=2,NAME = "ATKAO1")
+PLOTc("AT3G02470",isoform=3,NAME = "SAMDC1")
+
+# use the following to plot uORF regions
+# uorf.structure(uorf_annotation= "~/Desktop/uORF.gtf", format="gtf",dataSource="Araport",organism="Arabidopsis thaliana")
+# PLOTc("AT1G05160", isoform=2, uORF="AT1G05160", NAME = "ATKAO1")
+# PLOTc("AT3G02470", isoform=3, uORF="AT3G02470", NAME = "SAMDC1")
+
+#Example gtf for AT3G02470
+```
+3	Araport11	mRNA	509096	511489	.	+	.	gene_id AT3G02470; transcript_id AT3G02470.3; gene_biotype protein_coding;
+3	rtracklayer	CDS	509815	509952	.	+	.	gene_id "AT3G02470"; transcript_id "AT3G02470.3";
+3	rtracklayer	CDS	510048	510068	.	+	.	gene_id "AT3G02470"; transcript_id "AT3G02470.3";
+```
+
 
 
 
