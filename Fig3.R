@@ -1,4 +1,3 @@
-```
 #############################################################################################
 # Figure 3: Length distribution of CDS for Ribo-seq uORFs, predicted uORFs and no uORF genes
 #############################################################################################
@@ -305,4 +304,3 @@ ggsave("~/Desktop/uORFs_miRNA/Figures_Aug252021/Figure 3 Length 5UTR 3UTR CDS uO
        units = "in",
        width = 10.5,
        height = 4)
-```
