@@ -104,12 +104,16 @@ PLOTc("AT3G02470",isoform=3,NAME = "SAMDC1")
 # PLOTc("AT1G05160", isoform=2, uORF="AT1G05160", NAME = "ATKAO1")
 # PLOTc("AT3G02470", isoform=3, uORF="AT3G02470", NAME = "SAMDC1")
 
-#Example gtf for AT3G02470
-```  
-3	Araport11	mRNA	509096	511489	.	+	.	gene_id AT3G02470; transcript_id AT3G02470.3; gene_biotype protein_coding;
-3	rtracklayer	CDS	509815	509952	.	+	.	gene_id "AT3G02470"; transcript_id "AT3G02470.3";
-3	rtracklayer	CDS	510048	510068	.	+	.	gene_id "AT3G02470"; transcript_id "AT3G02470.3";
-```  
+#gtf for AT1G05160 uORF
+#1	Araport11	mRNA	1487378	1491005	.	-	.	gene_id AT1G05160; transcript_id AT1G05160.1; gene_biotype protein_coding;
+#1	rtracklayer	CDS	1490730	1490837	.	-	.	gene_id "AT1G05160"; transcript_id "AT1G05160.1";
+#1	rtracklayer	CDS	1489912	1489953	.	-	.	gene_id "AT1G05160"; transcript_id "AT1G05160.1";
+
+#gtf for AT3G02470 uORF
+#3	Araport11	mRNA	509096	511489	.	+	.	gene_id AT3G02470; transcript_id AT3G02470.3; gene_biotype protein_coding;
+#3	rtracklayer	CDS	509815	509952	.	+	.	gene_id "AT3G02470"; transcript_id "AT3G02470.3";
+#3	rtracklayer	CDS	510048	510068	.	+	.	gene_id "AT3G02470"; transcript_id "AT3G02470.3";
+
 
 
 
