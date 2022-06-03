@@ -72,33 +72,6 @@ TE_CDS$Category <- factor(TE_CDS$Category, levels=c("CPuORFs", "Other uORFs", "O
 # # 1693      84   19859 
 # TE_CDS$Category <- factor(TE_CDS$Category, levels=c("CPuORFs", "TuORFs", "Others"), labels=c("CPuORFs", "TuORFs","Others"))
 
-# mRNA half-lives
-half_lives <- read.delim(file="/Volumes/GoogleDrive/My Drive/CPuORF_paper/data-for-analysis/RNA-half-lives-5EU.txt",header=T,stringsAsFactors=F,sep="\t")
-half_lives <- half_lives %>% dplyr::select("Gene.ID","Mean")
-colnames(half_lives) <- c("gene_id","Mean")
-half_lives <- half_lives %>% filter(gene_id %in% fiveUTRByGeneNames)
-# half_lives$Category <- ifelse(half_lives$gene_id %in% CPuORFs$gene_id, "CPuORFs",ifelse(half_lives$gene_id %in% Genes_w_only_RiboTaper_defined_uORFs,"Riboseq",ifelse(half_lives$gene_id %in% Genes_w_only_seq_predicted_uORFs, "Predicted", "Others")))
-half_lives$Category <- ifelse(half_lives$gene_id %in% CPuORFs$gene_id,"CPuORFs",ifelse(half_lives$gene_id %in% Genes_w_only_RiboTaper_defined_uORFs, "TuORFs", "Others"))
-half_lives$Category <- factor(half_lives$Category, levels=c("CPuORFs", "TuORFs", "Others"), labels=c("CPuORFs", "TuORFs","Others"))
-
-# Quantitative peoteomics for Shoot
-shoot_proteomics <- read.xlsx("~/Desktop/uORFs_miRNA/Justin_Proteomics2017/data_excel/pmic12946-sup-0004-tables7.xlsx",sheet = 3)
-head(shoot_proteomics$`MS/MS.count`)
-shoot_proteomics$gene_id <- substr(shoot_proteomics$Protein.IDs,1,9)
-shoot_proteomics2 <- shoot_proteomics %>% dplyr::select(gene_id,`MS/MS.count`,`Sequence.length`)
-colnames(shoot_proteomics2) <-c("gene_id","MS_count","Pept_length")
-shoot_proteomics2 <- shoot_proteomics2 %>% filter(gene_id %in% fiveUTRByGeneNames)
-shoot_proteomics2$norm_MS_count <- shoot_proteomics2$MS_count/shoot_proteomics2$Pept_length
-# shoot_proteomics2$Category <- ifelse(shoot_proteomics2$gene_id %in% CPuORFs$gene_id, "CPuORFs",ifelse(shoot_proteomics2$gene_id %in% Genes_w_only_RiboTaper_defined_uORFs,"Riboseq",ifelse(shoot_proteomics2$gene_id %in% Genes_w_only_seq_predicted_uORFs, "Predicted", "Others")))
-shoot_proteomics2$Category <- ifelse(shoot_proteomics2$gene_id %in% CPuORFs$gene_id,"CPuORFs",ifelse(shoot_proteomics2$gene_id %in% Genes_w_only_RiboTaper_defined_uORFs, "TuORFs", "Others"))
-shoot_proteomics2$Category <- factor(shoot_proteomics2$Category,levels=c("CPuORFs", "TuORFs", "Others"), labels=c("CPuORFs", "TuORFs","Others"))
-
-#
-# TE_CDS %>% group_by(Category) %>% summarise(median=median(RNA)/7.82)
-# TE_CDS %>% group_by(Category) %>% summarise(median=median(TE)/1.19)
-# half_lives %>% group_by(Category) %>% summarise(median=median(Mean)/1.90)
-# shoot_proteomics2 %>% group_by(Category) %>% summarise(median=median(norm_MS_count)/0.0468)
-
 #######################
 ####   Box plot    ####
 #######################
