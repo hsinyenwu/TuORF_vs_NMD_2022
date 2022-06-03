@@ -1,5 +1,5 @@
 #############################################################################################
-# Figure S1: Correlation of between RNA and Ribo-seq samples
+# Figure S1A: Correlation of between RNA and Ribo-seq samples
 #############################################################################################
 # Use results from Kallisto quant for CDS regions
 library(ggplot2)
@@ -31,3 +31,24 @@ TPM2 <- TPM %>% filter(RNA_mean>0.1,Ribo_mean>0.1) %>% filter(RNA_mean<100,Ribo_
 R2 <- round(cor(TPM2[,1:12]),2)
 
 corrplot(R2, method = "number",type="upper")
+#############################################################################################
+# Figure S1B: Plot RGA1 with RiboPlotR
+#############################################################################################
+
+rna_bam.ribo(RNAseqBam1="~/Desktop/ABA/P_sites_all/RNA_DMSO60_merged.bam",
+             Ribo1="/Users/wu/Desktop/CTRL_v1/CTRL_TPM0.25_132M_P_sites_sort_count",
+             RNAseqBam2="~/Desktop/Desktop_Dec_2018/At_RNA_PE/mergedShoot_sortedByPos.bam",
+             Ribo2="/Users/wu/Desktop/BACKUP/Shoot_P_sites_all_4Col.bed",
+             RNAlab1="RNA coverage",
+             RNAlab2="Shoot RNA count",
+             Ribolab1="Ribo coverage",
+             Ribolab2="Root ribo count",
+             S_NAME1="Seedling",
+             S_NAME2="Shoot",
+             RNAbackground="#FFFFE0",
+             RNAseqBamPaired="paired")
+
+PLOTc2("AT1G04020") #Figure S1B
+
+
+
