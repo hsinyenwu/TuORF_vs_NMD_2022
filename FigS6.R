@@ -1,6 +1,5 @@
-```
 ##################################################
-# Figure X: CPuORFs vs ATuORFs vs Other genes    #
+# Figure X: CPuORFs vs TuORFs vs Other genes    #
 # RNA/Ribo/TE/HL/Protein levels                  #
 # Boxplot and U test                             #                              
 ##################################################
@@ -28,7 +27,7 @@ exonByGene <- exonsBy(txdb,by='gene')
 exonByTx <- exonsBy(txdb,by='tx',use.names=T)
 fiveUTRByTx <- fiveUTRsByTranscript(txdb,use.names=T)
 fiveUTR_seqs <- extractTranscriptSeqs(FA,fiveUTRByTx)
-length(fiveUTR_seqs) #[1] 22136
+length(fiveUTR_seqs) #[1] 37994
 
 fiveUTR_ORFs <- findMapORFs(fiveUTRByTx, fiveUTR_seqs,startCodon = "ATG",longestORF=F,groupByTx=F, minimumLength=9)
 fiveUTR_ORFs_tx_names <- unlist(lapply(1:length(fiveUTR_ORFs),function(x) names(fiveUTR_ORFs[[x]][1])))
@@ -64,12 +63,14 @@ ORF_max_filt_uORF <- ORF_max_filt %>% filter(category=="uORF")
 Genes_w_only_seq_predicted_uORFs <- fiveUTR_ORFs_gene_names[!fiveUTR_ORFs_gene_names%in%ORF_max_filt_uORF$gene_id]
 Genes_w_only_RiboTaper_defined_uORFs <- ORF_max_filt_uORF$gene_id
 
-TE_CDS$Category <- ifelse(TE_CDS$gene_id %in% CPuORFs$gene_id,"CPuORFs",ifelse(TE_CDS$gene_id %in% Genes_w_only_RiboTaper_defined_uORFs, "ATuORFs", "Others"))
-table(TE_CDS$Category)
-# ATuORFs CPuORFs  Others 
-# 1693      84   19859 
-TE_CDS$Category <- factor(TE_CDS$Category, levels=c("CPuORFs", "ATuORFs", "Others"), labels=c("CPuORFs", "ATuORFs","Others"))
+TE_CDS$Category <- ifelse(TE_CDS$gene_id %in% CPuORFs$gene_id,"CPuORFs",ifelse(TE_CDS$gene_id %in% fiveUTR_ORFs_gene_names, "Other uORFs", "Others"))
+TE_CDS$Category <- factor(TE_CDS$Category, levels=c("CPuORFs", "Other uORFs", "Others"), labels=c("CPuORFs", "Other uORFs","Others"))
 
+# TE_CDS$Category <- ifelse(TE_CDS$gene_id %in% CPuORFs$gene_id,"CPuORFs",ifelse(TE_CDS$gene_id %in% Genes_w_only_RiboTaper_defined_uORFs, "TuORFs", "Others"))
+# table(TE_CDS$Category)
+# # TuORFs CPuORFs  Others 
+# # 1693      84   19859 
+# TE_CDS$Category <- factor(TE_CDS$Category, levels=c("CPuORFs", "TuORFs", "Others"), labels=c("CPuORFs", "TuORFs","Others"))
 
 # mRNA half-lives
 half_lives <- read.delim(file="/Volumes/GoogleDrive/My Drive/CPuORF_paper/data-for-analysis/RNA-half-lives-5EU.txt",header=T,stringsAsFactors=F,sep="\t")
@@ -77,8 +78,8 @@ half_lives <- half_lives %>% dplyr::select("Gene.ID","Mean")
 colnames(half_lives) <- c("gene_id","Mean")
 half_lives <- half_lives %>% filter(gene_id %in% fiveUTRByGeneNames)
 # half_lives$Category <- ifelse(half_lives$gene_id %in% CPuORFs$gene_id, "CPuORFs",ifelse(half_lives$gene_id %in% Genes_w_only_RiboTaper_defined_uORFs,"Riboseq",ifelse(half_lives$gene_id %in% Genes_w_only_seq_predicted_uORFs, "Predicted", "Others")))
-half_lives$Category <- ifelse(half_lives$gene_id %in% CPuORFs$gene_id,"CPuORFs",ifelse(half_lives$gene_id %in% Genes_w_only_RiboTaper_defined_uORFs, "ATuORFs", "Others"))
-half_lives$Category <- factor(half_lives$Category, levels=c("CPuORFs", "ATuORFs", "Others"), labels=c("CPuORFs", "ATuORFs","Others"))
+half_lives$Category <- ifelse(half_lives$gene_id %in% CPuORFs$gene_id,"CPuORFs",ifelse(half_lives$gene_id %in% Genes_w_only_RiboTaper_defined_uORFs, "TuORFs", "Others"))
+half_lives$Category <- factor(half_lives$Category, levels=c("CPuORFs", "TuORFs", "Others"), labels=c("CPuORFs", "TuORFs","Others"))
 
 # Quantitative peoteomics for Shoot
 shoot_proteomics <- read.xlsx("~/Desktop/uORFs_miRNA/Justin_Proteomics2017/data_excel/pmic12946-sup-0004-tables7.xlsx",sheet = 3)
@@ -89,8 +90,8 @@ colnames(shoot_proteomics2) <-c("gene_id","MS_count","Pept_length")
 shoot_proteomics2 <- shoot_proteomics2 %>% filter(gene_id %in% fiveUTRByGeneNames)
 shoot_proteomics2$norm_MS_count <- shoot_proteomics2$MS_count/shoot_proteomics2$Pept_length
 # shoot_proteomics2$Category <- ifelse(shoot_proteomics2$gene_id %in% CPuORFs$gene_id, "CPuORFs",ifelse(shoot_proteomics2$gene_id %in% Genes_w_only_RiboTaper_defined_uORFs,"Riboseq",ifelse(shoot_proteomics2$gene_id %in% Genes_w_only_seq_predicted_uORFs, "Predicted", "Others")))
-shoot_proteomics2$Category <- ifelse(shoot_proteomics2$gene_id %in% CPuORFs$gene_id,"CPuORFs",ifelse(shoot_proteomics2$gene_id %in% Genes_w_only_RiboTaper_defined_uORFs, "ATuORFs", "Others"))
-shoot_proteomics2$Category <- factor(shoot_proteomics2$Category,levels=c("CPuORFs", "ATuORFs", "Others"), labels=c("CPuORFs", "ATuORFs","Others"))
+shoot_proteomics2$Category <- ifelse(shoot_proteomics2$gene_id %in% CPuORFs$gene_id,"CPuORFs",ifelse(shoot_proteomics2$gene_id %in% Genes_w_only_RiboTaper_defined_uORFs, "TuORFs", "Others"))
+shoot_proteomics2$Category <- factor(shoot_proteomics2$Category,levels=c("CPuORFs", "TuORFs", "Others"), labels=c("CPuORFs", "TuORFs","Others"))
 
 #
 # TE_CDS %>% group_by(Category) %>% summarise(median=median(RNA)/7.82)
@@ -139,7 +140,7 @@ bxp <- ggboxplot(TE_CDS,
         axis.text.x=element_blank(),
         legend.title=element_text(size=12),
         legend.text=element_text(size=12)) +
-  scale_color_manual(values = c("CPuORFs" = "#F8766D", "ATuORFs"="#00BA38", "Others"="#619CFF")) 
+  scale_color_manual(values = c("CPuORFs" = "#F8766D", "Other uORFs"="#00BA38", "Others"="#619CFF")) 
 
 # Add p-values onto the box plots
 stat.test <- stat.test %>%
@@ -160,4 +161,3 @@ pRNA_box <- bxp +
   stat_pvalue_manual(stat.test, label = "p.adj.signif", tip.length = 0.0001, y.position = vsteps, hide.ns = FALSE) +
   stat_n_text(y.pos=-1.5,size = 2.5)
 pRNA_box
-```
