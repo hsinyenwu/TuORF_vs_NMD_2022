@@ -1,4 +1,6 @@
-```
+#############################################################################################
+# Figure 4A-D: Ratio of RNA levels in NMD mutants vs Control
+#############################################################################################
 rm(list=ls())
 library(openxlsx)
 library(dplyr)
@@ -530,5 +532,4 @@ p4 <- grid.arrange(pupf1upf3_Col_RNA_ratio + theme(legend.position="none"),
                    layout_matrix=rbind(c(1,2,3,4,5)),
                    top=textGrob("   Figure x. TuORF Ribo compared to main ORF Ribo ratio vs mRNA ratio betweenNMD mutants and WT", gp=gpar(fontsize=13), x = 0, hjust = 0))
 
-```
 
