@@ -1,4 +1,6 @@
-```
+#############################################################################################
+# Figure 6: Decay rates in WT and decay mutants
+#############################################################################################
 #Add NMD target & uORF gene group
 #############################################
 # Decay rates in different mutants vs NMD targets, uORF genes, other genes
@@ -417,5 +419,3 @@ p3 = grid.arrange(pWT_box + theme(legend.position="none"),
 #        units = "in",
 #        width = 14.5,
 #        height = 3.5)
-
-```
