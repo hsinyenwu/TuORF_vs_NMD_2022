@@ -1,4 +1,78 @@
 #############################################################################################
+# Figure S7A: Correlation of TuORF normalized read counts vs TuORF transcript mRNA levels
+#############################################################################################
+rm(list=ls())
+library(openxlsx)
+library(dplyr)
+library(reshape)
+library(ggplot2)
+library(ggtext)
+library(grid)
+library(gridExtra)
+library(ggpubr)
+library(rstatix)
+library(EnvStats)
+
+#Load 5UTR containing gene list
+fiveUTRByGeneNames <- read.delim("~/Desktop/uORFs_miRNA/genes_w_5'UTR.tsv",header=T)
+fiveUTRByGeneNames <- fiveUTRByGeneNames$gene_id
+
+#Load datasets
+RNA <- read.delim("~/Desktop/uORFs_miRNA/RSEM_Araport11_1st+2nd_Riboseq_RNA.genes.results_CDS_only",header=T,sep="\t",stringsAsFactors = F, quote="")
+Ribo <- read.delim("~/Desktop/uORFs_miRNA/RSEM_Araport11_1st+2nd_Riboseq_Ribo.genes.results_CDS_only",header=T,sep="\t",stringsAsFactors = F, quote="")
+
+TE_CDS <- data.frame(gene_id=RNA$gene_id,
+                     RNA=RNA$TPM,
+                     Ribo=Ribo$TPM,
+                     TE=Ribo$TPM/RNA$TPM)
+# Remove not translated transcripts
+TE_CDS <- TE_CDS %>% filter(gene_id %in% fiveUTRByGeneNames)
+# TE_CDS <- TE_CDS %>% filter(TE>0 & !is.infinite(TE))
+TE_CDS <- TE_CDS %>% filter(RNA>0)
+
+#RiboTaper output
+ORF_max_filt <- read.delim(file="~/Desktop/uORFs_miRNA/ORFs_max_filt_Araport_both_round_reads",header=T,stringsAsFactors=F,sep="\t")
+table(ORF_max_filt$category)
+# dORF     ncORFS  ORFs_ccds Overl_dORF       uORF 
+# 208        379      37361         15       2093
+
+ORF_max_filt_uORF <- ORF_max_filt %>% filter(category=="uORF")
+head(ORF_max_filt_uORF,2)
+nrow(ORF_max_filt_uORF)
+
+ORF_max_filt_uORF <- ORF_max_filt_uORF %>% mutate(pept_length=nchar(ORF_pept))
+
+TuORF_gene <- table(ORF_max_filt_uORF$gene_id)
+TuORF_gene_df <- data.frame(gene_id=names(TuORF_gene),freq=as.numeric(TuORF_gene))
+head(TuORF_gene_df)
+TuORF_gene_df1 <- TuORF_gene_df %>% filter(freq==1)
+TuORF_gene_df2 <- TuORF_gene_df %>% filter(freq>1)
+
+#remove genes with more than one uORF from TE_CDS (so others will not include them)
+TE_CDS <- TE_CDS %>% filter(!(gene_id %in% TuORF_gene_df2$gene_id))
+
+ORF_max_filt_uORF <- ORF_max_filt_uORF %>% filter(gene_id %in% TuORF_gene_df1$gene_id)
+
+ORF_max_filt_mORF <- ORF_max_filt %>% filter(transcript_id %in% ORF_max_filt_uORF$transcript_id,category=="ORFs_ccds")%>% group_by(transcript_id) %>% top_n(n=1, wt = ORF_length)
+ORF_max_filt_mORF <- ORF_max_filt_mORF %>% mutate(mORF_P_sites=ORF_P_sites,mORF_length=ORF_length) %>% dplyr::select(transcript_id,mORF_P_sites,mORF_length)
+
+ORF_max_filt_uORF_mORF <- inner_join(ORF_max_filt_uORF,ORF_max_filt_mORF) %>% mutate(uORF_mORF_Ribo_ratio=(ORF_P_sites/ORF_length)/(mORF_P_sites/mORF_length)) %>% 
+  mutate(TuORF_TE=(ORF_P_sites/ORF_RNA_sites)) %>% mutate(TuORF_norm_read_count=ORF_P_sites/ORF_length)
+
+dim(ORF_max_filt_uORF_mORF) #[1] 1438   42
+
+ORF_max_filt_uORF_mORF2 <- left_join(ORF_max_filt_uORF_mORF,TE_CDS,by="gene_id")
+
+F2I <- ggplot(ORF_max_filt_uORF_mORF2, aes(y=log2(TuORF_norm_read_count), x=log2(RNA),alpha=0.001)) + 
+  geom_point()+
+  geom_smooth(method=lm)+ theme_classic()
+F2I
+cor(log2(ORF_max_filt_uORF_mORF2$TuORF_norm_read_count), log2(ORF_max_filt_uORF_mORF2$RNA),use="pairwise.complete.obs")
+#0.38
+cor.test(log2(ORF_max_filt_uORF_mORF2$TuORF_norm_read_count), log2(ORF_max_filt_uORF_mORF2$RNA),use="pairwise.complete.obs")
+#p-value < 2.2e-16
+
+#############################################################################################
 # Figure S7B: Expression levels for TuORFs, UuORFs and no uORF genes
 #############################################################################################
 #rm(list=ls())
