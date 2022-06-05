@@ -1,7 +1,5 @@
 ##################################################
-# Figure X: CPuORFs vs TuORFs vs Other genes    #
-# RNA/Ribo/TE/HL/Protein levels                  #
-# Boxplot and U test                             #                              
+# Figure S6: CPuORFs vs Other genes              #                         
 ##################################################
 rm(list=ls())
 library(dbplyr)
@@ -65,6 +63,8 @@ Genes_w_only_RiboTaper_defined_uORFs <- ORF_max_filt_uORF$gene_id
 
 TE_CDS$Category <- ifelse(TE_CDS$gene_id %in% CPuORFs$gene_id,"CPuORFs",ifelse(TE_CDS$gene_id %in% fiveUTR_ORFs_gene_names, "Other uORFs", "Others"))
 TE_CDS$Category <- factor(TE_CDS$Category, levels=c("CPuORFs", "Other uORFs", "Others"), labels=c("CPuORFs", "Other uORFs","Others"))
+
+TE_CDS %>% group_by(Category) %>% summarise(median=median(RNA)/7.66)
 
 # TE_CDS$Category <- ifelse(TE_CDS$gene_id %in% CPuORFs$gene_id,"CPuORFs",ifelse(TE_CDS$gene_id %in% Genes_w_only_RiboTaper_defined_uORFs, "TuORFs", "Others"))
 # table(TE_CDS$Category)
