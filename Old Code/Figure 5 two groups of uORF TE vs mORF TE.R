@@ -1,4 +1,3 @@
-```
 rm(list=ls())
 library(openxlsx)
 library(dplyr)
@@ -559,6 +558,3 @@ p4 <- grid.arrange(pupf1upf3_Col_RNA_ratio + theme(legend.position="none"),
 #        units = "in",
 #        width = 14.5,
 #        height = 5)
-
-
-```
