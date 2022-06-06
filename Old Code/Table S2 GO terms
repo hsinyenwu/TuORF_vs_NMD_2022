@@ -1,4 +1,4 @@
-```
+
 ##################################################
 # Figure 1: Heat maps for uORF genes GO term     #
 ##################################################
@@ -14,7 +14,6 @@ library(clipr)
 write_clip(Exp_uORFs_g_id)
 write_clip(Exp_no_uORFs_g_id)
 
-```
 Use TAIR website for GO term analysis
 We can also use AgriGO2 website and use rest of genes in ORFs_max_filt as control.
 
