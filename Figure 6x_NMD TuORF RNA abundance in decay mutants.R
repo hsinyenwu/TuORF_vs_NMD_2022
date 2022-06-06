@@ -1,4 +1,3 @@
-```
 #############################################
 # Z: Decay rates in different mutants vs NMD targets, uORF genes, other genes
 #############################################
@@ -417,6 +416,3 @@ ggsave("~/Desktop/NMD_revise/Figures/Figure 6X. boxplot mRNA decay rates for uOR
        width = 13,
        height = 3.5)
 
-
-
-```
