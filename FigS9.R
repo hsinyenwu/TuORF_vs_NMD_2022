@@ -1,6 +1,5 @@
-```
 #############################################################################################
-# Figure 3: Length distribution of CDS for Ribo-seq uORFs, predicted uORFs and no uORF genes
+# Figure S9: Length distribution of CDS for Ribo-seq uORFs, predicted uORFs and no uORF genes
 #############################################################################################
 rm(list=ls())
 library(dbplyr)
@@ -384,4 +383,4 @@ ggsave("~/Desktop/NMD paper/Figure Length 5UTR 3UTR CDS NMD targets and uORF gen
        units = "in",
        width = 12,
        height = 5)
-```
+
