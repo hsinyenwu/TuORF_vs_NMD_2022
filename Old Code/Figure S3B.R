@@ -1,4 +1,3 @@
-```
 #tomato 
 #Transcription profiling by high throughput sequencing of tomato root, leaf, flower (2 stages) and fruit (6 stages).
 
@@ -90,4 +89,4 @@ ggsave("~/Desktop/uORFs_miRNA/Figures_Aug252021/FigureX_Boxplot_tomato_tissues_R
        units = "in",
        width = 13,
        height = 6)
-```
+
