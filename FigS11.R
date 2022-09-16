@@ -1,5 +1,5 @@
 #############################################
-# Figure S10: Decay rates in different mutants vs NMD targets, uORF genes, other genes
+# Figure S11: Decay rates in different mutants vs NMD targets, uORF genes, other genes
 #############################################
 rm(list=ls())
 library(dbplyr)
