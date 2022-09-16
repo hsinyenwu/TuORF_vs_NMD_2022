@@ -1,5 +1,5 @@
 #############################################################################################
-# Figure 3: Length distribution of CDS for Ribo-seq uORFs, predicted uORFs and no uORF genes
+# Figure S8: Length distribution of CDS for Ribo-seq uORFs, predicted uORFs and no uORF genes
 #############################################################################################
 #rm(list=ls())
 library(dbplyr)
@@ -299,7 +299,7 @@ p3 = grid.arrange(p5UTR_length_box + theme(legend.position="none"),
                   layout_matrix=rbind(c(1,2,3,4,5)),
                   top=textGrob("FigureX: Length 5UTR 3UTR CDS uORF genes", gp=gpar(fontsize=12), x = 0, hjust = 0))
 
-ggsave("~/Desktop/uORFs_miRNA/Figures_Aug252021/Figure 3 Length 5UTR 3UTR CDS uORF genes.pdf",
+ggsave("~/Desktop/Figure S8 Length 5UTR 3UTR CDS uORF genes.pdf",
        plot = p3,
        units = "in",
        width = 10.5,
