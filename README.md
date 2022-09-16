@@ -6,6 +6,6 @@ The Arabidopsis annotation Araport11 and TAIR10 genome sequence files can be fou
 
 The TuORF positions can be visualized on the [JBrowse TAIR](https://jbrowse.arabidopsis.org/index.html?data=Araport11&loc=Chr1%3A21537..32850&tracks=TAIR10_genome%2CA11-GL-Jul22%2CA11-PC-Jul22%2CSALK_tDNAs&highlight=) after the paper is accepted.
 
-The downstream analysis is done in R and used numorous R packages. For visualizing the distribution of Ribo-seq reads for individual genes, please use [RiboPloTR](https://github.com/hsinyenwu/RiboPlotR).  
+The downstream analysis is done in R and used numorous R packages. For visualizing the distribution of Ribo-seq reads for individual genes, please use [RiboPlotR](https://github.com/hsinyenwu/RiboPlotR).  
 
 
