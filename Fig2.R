@@ -1,16 +1,13 @@
 ####################################################################################################################
-# Figure 2 A-D Cumulative plot for TuORF, UuORF and other genes (i.e., no potential uORFs but with annotated 5'UTR 
+# Figure 2 A-D Cumulative plot (ECDF) for TuORF, UuORF and other genes (i.e., no potential uORFs but with annotated 5'UTR 
 # 2A steady-state mRNA levels
 # 2B TE (translation efficiency)
 # 2C mRNA half-lives
 # 2D protein abundance
-# 2E
-# 2F
-# 2G
-# 2H
+# 2E-H Same as 2A-D but present with boxplots
 ####################################################################################################################
 
-rm(list=ls())
+#rm(list=ls())
 library(dbplyr)
 library(reshape)
 library(ggplot2)
@@ -170,6 +167,7 @@ p3 =grid.arrange(pRNA + theme(legend.position="none"),
 #######################
 
 #######################
+# Figure 2E                      
 # RNA boxplot
 #######################
 
@@ -222,6 +220,7 @@ pRNA_box <- bxp +
 pRNA_box
 
 #######################
+# Figure 2F
 # TE boxplot
 #######################
 
@@ -274,6 +273,7 @@ pTE_box <- bxp +
 pTE_box
 
 #######################
+# Figure 2G
 # Half-life boxplot
 #######################
 half_lives <- half_lives[!is.infinite(half_lives$Mean),]
@@ -326,9 +326,10 @@ pHL_box <- bxp +
   stat_n_text(y.pos=-0.1,size = 2.5)
 pHL_box
 
-#######################
-# protein abundance boxplot
-#######################
+#############################
+# Figure 2H                 #
+# protein abundance boxplot #
+#############################
 shoot_proteomics2 <- shoot_proteomics2[!is.infinite(shoot_proteomics2$norm_MS_count),]
 
 # default p-value adjustement method: Holm
@@ -430,7 +431,7 @@ p3
                       
                       
 ################
-# Figure 2E-F
+# Figure 2E-F Tomato
 ################
 #rm(list=ls())
 library(dplyr)
