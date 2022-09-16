@@ -1,5 +1,5 @@
 #############################################################################################
-# Figure S3 TuORFs vs UuORFs vs Other genes cumulative curve for mRNA levels, TE, mRNA half-lives and protein abundance
+# Figure2A-D TuORFs vs UuORFs vs Other genes cumulative curve for mRNA levels, TE, mRNA half-lives and protein abundance
 #############################################################################################
 rm(list=ls())
 library(dbplyr)
