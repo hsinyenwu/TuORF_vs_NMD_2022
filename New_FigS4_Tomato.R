@@ -1,5 +1,5 @@
 ################
-# Figure 2E-F Tomato
+# Figure S4 Tomato TuORFs vs UuORFs vs Other 5'UTR-containing genes: RNA levels and TE
 ################
 #rm(list=ls())
 library(dplyr)
@@ -19,7 +19,6 @@ table(ORFs_max_filt$category)
 
 # dORF     ncORFS  ORFs_ccds Overl_dORF       uORF 
 # 163        354      20659          7       1329 
-
 
 #Find genes with high TE and check the translation start sites
 # RNAseq and riboseq TPM and TE
