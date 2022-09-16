@@ -303,7 +303,7 @@ bxp <- ggboxplot(half_lives,
         axis.text.x=element_blank(),
         legend.title=element_text(size=12),
         legend.text=element_text(size=12))+
-  scale_color_manual(values = c("CPuORFs"="purple","Riboseq" = "#F8766D", "Predicted"="#00BA38", "Others"="#619CFF"))  #legend key font size
+  scale_color_manual(values = c("Riboseq" = "#F8766D", "Predicted"="#00BA38", "Others"="#619CFF"))  #legend key font size
 
 bxp
 
@@ -357,7 +357,7 @@ bxp <- ggboxplot(shoot_proteomics2,
         axis.text.x=element_blank(),
         legend.title=element_text(size=12),
         legend.text=element_text(size=12)) +
-  scale_color_manual(values = c("CPuORFs"="purple","Riboseq" = "#F8766D", "Predicted"="#00BA38", "Others"="#619CFF"))
+  scale_color_manual(values = c("Riboseq" = "#F8766D", "Predicted"="#00BA38", "Others"="#619CFF"))
 #legend key font size
 
 bxp
