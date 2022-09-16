@@ -1,5 +1,5 @@
 #############################################################################################
-# Figure S9: Length distribution of CDS for Ribo-seq uORFs, predicted uORFs and no uORF genes
+# Figure S10: Length distribution of CDS for Ribo-seq uORFs, predicted uORFs and no uORF genes
 #############################################################################################
 rm(list=ls())
 library(dbplyr)
