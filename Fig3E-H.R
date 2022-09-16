@@ -1,5 +1,5 @@
 #############################################################################################
-# Figure 4E-H: Relative TE uORF vs mORF for NMD vs Control mRNA ratio 
+# Figure 3E-H: Relative TE uORF vs mORF for NMD vs Control mRNA ratio 
 #############################################################################################
 rm(list=ls())
 library(openxlsx)
@@ -512,4 +512,4 @@ p4 <- grid.arrange(pupf1upf3_Col_RNA_ratio + theme(legend.position="none"),
                    psmg7pad4_pad4_RNA_ratio + theme(legend.position="none"),
                    p2_legend,
                    layout_matrix=rbind(c(1,2,3,4,5)),
-                   top=textGrob("   Figure x. TuORF Ribo compared to main ORF Ribo ratio vs mRNA ratio betweenNMD mutants and WT", gp=gpar(fontsize=13), x = 0, hjust = 0))
+                   top=textGrob("   Figure 3E-H. TuORF Ribo compared to main ORF Ribo ratio vs mRNA ratio betweenNMD mutants and WT", gp=gpar(fontsize=13), x = 0, hjust = 0))
