@@ -1,5 +1,5 @@
 #############################################################################################
-# Figure 6: Decay rates in WT and decay mutants
+# Figure 5: Decay rates in WT and decay mutants
 #############################################################################################
 #Add NMD target & uORF gene group
 #############################################
@@ -160,7 +160,7 @@ p3 =grid.arrange(pWT + theme(legend.position="none"),
                  layout_matrix=rbind(c(1,2,3,4,5)),
                  top=textGrob("mRNA decay rates for NMD targets, uORF genes and others in WT and mutants",gp = gpar(fontsize = 14, fontface = "bold")))
 
-# ggsave("~/Desktop/NMD_Nature_Plants/figures/Figure X. mRNA decay rates for uORF genes NMD-targets in wt and decay mutants.pdf",
+# ggsave("~/Desktop/Figure 6. mRNA decay rates ECDF for uORF genes NMD-targets in wt and decay mutants.pdf",
 #        plot = p3,
 #        units = "in",
 #        width = 13,
@@ -414,7 +414,7 @@ p3 = grid.arrange(pWT_box + theme(legend.position="none"),
                   layout_matrix=rbind(c(1,2,3,4,5)),
                   top=textGrob("mRNA decay rates for uORF genes NMD-targets in wt and decay mutants",gp = gpar(fontsize = 14, fontface = "bold")))
 
-# ggsave("~/Desktop/atRTD3/Figure mRNA decay rates for uORF genes NMD-targets in wt and decay mutants2.pdf",
+# ggsave("~/Desktop/Figure 6 mRNA decay rates boxplot for uORF genes NMD-targets in wt and decay mutants.pdf",
 #        plot = p3,
 #        units = "in",
 #        width = 14.5,
