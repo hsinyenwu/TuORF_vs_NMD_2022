@@ -1,5 +1,5 @@
 #############################################################################################
-# Figure S8: TuORF length freq poly for NMD targets or non-NMD targets
+# Figure S9: TuORF length freq poly for NMD targets or non-NMD targets
 #############################################################################################
 rm(list=ls())
 library(reshape)
