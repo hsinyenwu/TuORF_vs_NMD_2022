@@ -32,13 +32,13 @@ fiveUTR_ORFs <- findMapORFs(fiveUTRByTx, fiveUTR_seqs,startCodon = "ATG",longest
 fiveUTR_ORFs_tx_names <- unlist(lapply(1:length(fiveUTR_ORFs),function(x) names(fiveUTR_ORFs[[x]])))
 fiveUTR_ORFs_gene_names <- substr(fiveUTR_ORFs_tx_names,1,9)
 
-threeUTRByTx_length <- sum(width(threeUTRByTx))
-tUTRSbyGene_length_df <- data.frame(gene_id=substr(names(threeUTRByTx_length),1,9),length_nt=unname(threeUTRByTx_length))
-tUTRSbyGene_length_df <- fUTRSbyGene_length_df %>% filter(gene_id %in% fiveUTRByGeneNames)
-
 fiveUTRByTx_length <- sum(width(fiveUTRByTx))
 fUTRSbyGene_length_df <- data.frame(gene_id=substr(names(fiveUTRByTx_length),1,9),length_nt=unname(fiveUTRByTx_length))
 fUTRSbyGene_length_df <- fUTRSbyGene_length_df %>% filter(gene_id %in% fiveUTRByGeneNames)
+
+threeUTRByTx_length <- sum(width(threeUTRByTx))
+tUTRSbyGene_length_df <- data.frame(gene_id=substr(names(threeUTRByTx_length),1,9),length_nt=unname(threeUTRByTx_length))
+tUTRSbyGene_length_df <- fUTRSbyGene_length_df %>% filter(gene_id %in% fiveUTRByGeneNames)
 
 CDSbyGene <- cdsBy(txdb,by="gene")
 CDSbyGene_length <- sum(width(CDSbyGene))
@@ -65,20 +65,20 @@ head(Genes_wo_uORFs)
 ORF_max_filt_predicted_uORF <- ORF_max_filt %>% filter(gene_id %in% Genes_w_only_seq_predicted_uORFs)
 ORF_max_filt_no_uORF <- ORF_max_filt %>% filter(gene_id %in% Genes_wo_uORFs)
 
-fUTRSbyGene_length_df$Category <- ifelse(fUTRSbyGene_length_df$gene_id %in% Genes_w_only_RiboTaper_defined_uORFs,"ATuORFs",ifelse(fUTRSbyGene_length_df$gene_id %in% Genes_w_only_seq_predicted_uORFs, "PTuORFs", "Others"))
-fUTRSbyGene_length_df$Category <- factor(fUTRSbyGene_length_df$Category, levels=c("ATuORFs", "PTuORFs", "Others"), labels=c("ATuORFs", "PTuORFs", "Others"))
+fUTRSbyGene_length_df$Category <- ifelse(fUTRSbyGene_length_df$gene_id %in% Genes_w_only_RiboTaper_defined_uORFs,"TuORFs",ifelse(fUTRSbyGene_length_df$gene_id %in% Genes_w_only_seq_predicted_uORFs, "UuORFs", "Others"))
+fUTRSbyGene_length_df$Category <- factor(fUTRSbyGene_length_df$Category, levels=c("TuORFs", "UuORFs", "Others"), labels=c("TuORFs", "UuORFs", "Others"))
 table(fUTRSbyGene_length_df$Category)
 
-tUTRSbyGene_length_df$Category <- ifelse(tUTRSbyGene_length_df$gene_id %in% Genes_w_only_RiboTaper_defined_uORFs,"ATuORFs",ifelse(tUTRSbyGene_length_df$gene_id %in% Genes_w_only_seq_predicted_uORFs, "PTuORFs", "Others"))
-tUTRSbyGene_length_df$Category <- factor(tUTRSbyGene_length_df$Category, levels=c("ATuORFs", "PTuORFs", "Others"), labels=c("ATuORFs", "PTuORFs", "Others"))
+tUTRSbyGene_length_df$Category <- ifelse(tUTRSbyGene_length_df$gene_id %in% Genes_w_only_RiboTaper_defined_uORFs,"TuORFs",ifelse(tUTRSbyGene_length_df$gene_id %in% Genes_w_only_seq_predicted_uORFs, "UuORFs", "Others"))
+tUTRSbyGene_length_df$Category <- factor(tUTRSbyGene_length_df$Category, levels=c("TuORFs", "UuORFs", "Others"), labels=c("TuORFs", "UuORFs", "Others"))
 table(tUTRSbyGene_length_df$Category)
 
-CDSbyGene_length_df$Category <- ifelse(CDSbyGene_length_df$gene_id %in% Genes_w_only_RiboTaper_defined_uORFs,"ATuORFs",ifelse(CDSbyGene_length_df$gene_id %in% Genes_w_only_seq_predicted_uORFs, "PTuORFs", "Others"))
-CDSbyGene_length_df$Category <- factor(CDSbyGene_length_df$Category, levels=c("ATuORFs", "PTuORFs", "Others"), labels=c("ATuORFs", "PTuORFs", "Others"))
+CDSbyGene_length_df$Category <- ifelse(CDSbyGene_length_df$gene_id %in% Genes_w_only_RiboTaper_defined_uORFs,"TuORFs",ifelse(CDSbyGene_length_df$gene_id %in% Genes_w_only_seq_predicted_uORFs, "UuORFs", "Others"))
+CDSbyGene_length_df$Category <- factor(CDSbyGene_length_df$Category, levels=c("TuORFs", "UuORFs", "Others"), labels=c("TuORFs", "UuORFs", "Others"))
 table(CDSbyGene_length_df$Category)
 
-exonByGene_length_df$Category <- ifelse(exonByGene_length_df$gene_id %in% Genes_w_only_RiboTaper_defined_uORFs,"ATuORFs",ifelse(exonByGene_length_df$gene_id %in% Genes_w_only_seq_predicted_uORFs, "PTuORFs", "Others"))
-exonByGene_length_df$Category <- factor(exonByGene_length_df$Category, levels=c("ATuORFs", "PTuORFs", "Others"), labels=c("ATuORFs", "PTuORFs", "Others"))
+exonByGene_length_df$Category <- ifelse(exonByGene_length_df$gene_id %in% Genes_w_only_RiboTaper_defined_uORFs,"TuORFs",ifelse(exonByGene_length_df$gene_id %in% Genes_w_only_seq_predicted_uORFs, "UuORFs", "Others"))
+exonByGene_length_df$Category <- factor(exonByGene_length_df$Category, levels=c("TuORFs", "UuORFs", "Others"), labels=c("TuORFs", "UuORFs", "Others"))
 table(exonByGene_length_df$Category)
 
 
@@ -96,28 +96,28 @@ exonByGene_length_df %>% group_by(Category) %>% summarise(median=median(length_n
 #######################
 
 stat.test <- fUTRSbyGene_length_df %>%
-  wilcox_test(length_nt ~Category) %>% 
+  wilcox_test(length_nt ~Category) %>%
   adjust_pvalue(method = "BY") %>%
   add_significance("p.adj")
 stat.test
 
 # Create a box plot
-bxp <- ggboxplot(fUTRSbyGene_length_df, 
-                 x = "Category", y = "length_nt", 
-                 color = "Category", 
+bxp <- ggboxplot(fUTRSbyGene_length_df,
+                 x = "Category", y = "length_nt",
+                 color = "Category",
                  outlier.shape=NA,
                  notch = FALSE,
                  ylim=c(-1,900),
                  legend = "right")+
-  rotate_x_text(angle = 45) + 
-  labs(tag = "A") + 
+  rotate_x_text(angle = 45) +
+  labs(tag = "A") +
   ylab("5' UTR length (nt)")+
   theme(plot.tag = element_text(face = 'bold',size=12),
         axis.title.x=element_blank(),
         axis.title.y=element_text(size=12),
         axis.text.x=element_blank(),
         legend.title=element_text(size=12),
-        legend.text=element_text(size=12)) 
+        legend.text=element_text(size=12))
 # bxp
 
 # Add p-values onto the box plots
@@ -134,7 +134,7 @@ yvalue <- function(ystart,stepsize,num) {
 
 vsteps <- yvalue(ystart=820,stepsize=40,num=3)
 
-p5UTR_length_box <- bxp + 
+p5UTR_length_box <- bxp +
   stat_pvalue_manual(stat.test, label = "p.adj.signif", tip.length = 0.002, y.position = vsteps, hide.ns = FALSE) +
   stat_n_text(y.pos=-1.5,size = 2.5)
 p5UTR_length_box
@@ -144,45 +144,37 @@ p5UTR_length_box
 #######################
 
 stat.test <- CDSbyGene_length_df %>%
-  wilcox_test(length_nt ~Category) %>% 
+  wilcox_test(length_nt ~Category) %>%
   adjust_pvalue(method = "BY") %>%
   add_significance("p.adj")
 stat.test
 
 # Create a box plot
-bxp <- ggboxplot(CDSbyGene_length_df, 
-                 x = "Category", y = "length_nt", 
-                 color = "Category", 
+bxp <- ggboxplot(CDSbyGene_length_df,
+                 x = "Category", y = "length_nt",
+                 color = "Category",
                  outlier.shape=NA,
                  notch = FALSE,
                  ylim=c(-1,4100),
                  legend = "right")+
-  rotate_x_text(angle = 45) + 
-  labs(tag = "B") + 
+  rotate_x_text(angle = 45) +
+  labs(tag = "B") +
   ylab("CDS length (nt)")+
   theme(plot.tag = element_text(face = 'bold',size=12),
         axis.title.x=element_blank(),
         axis.title.y=element_text(size=12),
         axis.text.x=element_blank(),
         legend.title=element_text(size=12),
-        legend.text=element_text(size=12)) 
+        legend.text=element_text(size=12))
 # bxp
 
 # Add p-values onto the box plots
 stat.test <- stat.test %>%
   add_xy_position(x = "Category", dodge = 0.8)
 
-yvalue <- function(ystart,stepsize,num) {
-  Ev <- c()
-  for(i in 1:num){
-    Ev[i] <- ystart + stepsize*(i-1)
-  }
-  return(Ev)
-}
-
 vsteps <- yvalue(ystart=3800,stepsize=150,num=3)
 
-pCDS_length_box <- bxp + 
+pCDS_length_box <- bxp +
   stat_pvalue_manual(stat.test, label = "p.adj.signif", tip.length = 0.002, y.position = vsteps, hide.ns = FALSE) +
   stat_n_text(y.pos=-1.5,size = 2.5)
 pCDS_length_box
@@ -192,45 +184,37 @@ pCDS_length_box
 #######################
 
 stat.test <- tUTRSbyGene_length_df %>%
-  wilcox_test(length_nt ~Category) %>% 
+  wilcox_test(length_nt ~Category) %>%
   adjust_pvalue(method = "BY") %>%
   add_significance("p.adj")
 stat.test
 
 # Create a box plot
-bxp <- ggboxplot(tUTRSbyGene_length_df, 
-                 x = "Category", y = "length_nt", 
-                 color = "Category", 
+bxp <- ggboxplot(tUTRSbyGene_length_df,
+                 x = "Category", y = "length_nt",
+                 color = "Category",
                  outlier.shape=NA,
                  notch = FALSE,
                  ylim=c(-1,700),
                  legend = "right")+
-  rotate_x_text(angle = 45) + 
-  labs(tag = "C") + 
+  rotate_x_text(angle = 45) +
+  labs(tag = "C") +
   ylab("3' UTR length (nt)")+
   theme(plot.tag = element_text(face = 'bold',size=12),
         axis.title.x=element_blank(),
         axis.title.y=element_text(size=12),
         axis.text.x=element_blank(),
         legend.title=element_text(size=12),
-        legend.text=element_text(size=12)) 
+        legend.text=element_text(size=12))
 # bxp
 
 # Add p-values onto the box plots
 stat.test <- stat.test %>%
   add_xy_position(x = "Category", dodge = 0.8)
 
-yvalue <- function(ystart,stepsize,num) {
-  Ev <- c()
-  for(i in 1:num){
-    Ev[i] <- ystart + stepsize*(i-1)
-  }
-  return(Ev)
-}
-
 vsteps <- yvalue(ystart=620,stepsize=40,num=3)
 
-p3UTR_length_box <- bxp + 
+p3UTR_length_box <- bxp +
   stat_pvalue_manual(stat.test, label = "p.adj.signif", tip.length = 0.002, y.position = vsteps, hide.ns = FALSE) +
   stat_n_text(y.pos=-1.5,size = 2.5)
 p3UTR_length_box
@@ -240,45 +224,37 @@ p3UTR_length_box
 #######################
 
 stat.test <- exonByGene_length_df %>%
-  wilcox_test(length_nt ~Category) %>% 
+  wilcox_test(length_nt ~Category) %>%
   adjust_pvalue(method = "BY") %>%
   add_significance("p.adj")
 stat.test
 
 # Create a box plot
-bxp <- ggboxplot(exonByGene_length_df, 
-                 x = "Category", y = "length_nt", 
-                 color = "Category", 
+bxp <- ggboxplot(exonByGene_length_df,
+                 x = "Category", y = "length_nt",
+                 color = "Category",
                  outlier.shape=NA,
                  notch = FALSE,
                  ylim=c(-1,5000),
                  legend = "right")+
-  rotate_x_text(angle = 45) + 
-  labs(tag = "D") + 
+  rotate_x_text(angle = 45) +
+  labs(tag = "D") +
   ylab("Transcript length (nt)")+
   theme(plot.tag = element_text(face = 'bold',size=12),
         axis.title.x=element_blank(),
         axis.title.y=element_text(size=12),
         axis.text.x=element_blank(),
         legend.title=element_text(size=12),
-        legend.text=element_text(size=12)) 
+        legend.text=element_text(size=12))
 # bxp
 
 # Add p-values onto the box plots
 stat.test <- stat.test %>%
   add_xy_position(x = "Category", dodge = 0.8)
 
-yvalue <- function(ystart,stepsize,num) {
-  Ev <- c()
-  for(i in 1:num){
-    Ev[i] <- ystart + stepsize*(i-1)
-  }
-  return(Ev)
-}
-
 vsteps <- yvalue(ystart=4600,stepsize=200,num=3)
 
-pTx_length_box <- bxp + 
+pTx_length_box <- bxp +
   stat_pvalue_manual(stat.test, label = "p.adj.signif", tip.length = 0.002, y.position = vsteps, hide.ns = FALSE) +
   stat_n_text(y.pos=-1.5,size = 2.5)
 pTx_length_box
@@ -297,10 +273,11 @@ p3 = grid.arrange(p5UTR_length_box + theme(legend.position="none"),
                   pTx_length_box+ theme(legend.position="none"),
                   p2_legend,
                   layout_matrix=rbind(c(1,2,3,4,5)),
-                  top=textGrob("FigureX: Length 5UTR 3UTR CDS uORF genes", gp=gpar(fontsize=12), x = 0, hjust = 0))
+                  top=textGrob("FigureS8: Length 5UTR 3UTR CDS uORF genes", gp=gpar(fontsize=12), x = 0, hjust = 0))
 
 ggsave("~/Desktop/Figure S8 Length 5UTR 3UTR CDS uORF genes.pdf",
        plot = p3,
        units = "in",
        width = 10.5,
        height = 4)
+
