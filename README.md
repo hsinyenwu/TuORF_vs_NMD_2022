@@ -47,4 +47,5 @@ Table S4. NMD target gene list
 •	Table S4A. High-confidence NMD targets expressed in our data  
 •	Table S4B. 49 genes identified as high-confidence NMD target TuORF genes  
 
-
+For more about Ribo-seq library construction, please see [here](https://github.com/hsinyenwu/Riboseq_protocol_2022).  
+For more about Ribo-seq visualization, please see [here](https://github.com/hsinyenwu/RiboPlotR).  
