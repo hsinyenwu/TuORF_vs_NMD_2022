@@ -1,5 +1,13 @@
-The code provided here is for the following paper:  
+#### The code provided here is for the following paper:  
 [Nonsense-mediated decay is not a major mechanism for regulating the uORF-containing mRNAs in Arabidopsis](https://www.biorxiv.org/content/10.1101/2021.09.16.460672v3)
+
+We provided six lines of evidence that:  
+(1) NMD targets, but not TuORF mRNAs, are upregulated in various NMD mutants (Figure 3).  
+(2) TuORF mRNAs have significantly higher transcript levels, while the NMD targets have lower transcript levels than other genes (Figure 4A and 4E).  
+(3) NMD and TuORFs additively repress translation, suggesting they repress translation through separate mechanisms (Figure 4B, 4F).  
+(4) While NMD targets are efficiently degraded through both 5’ to 3’ and 3’ to 5’ decay, TuORF mRNAs, like other genes, mainly rely on 5’ to 3’ decay (Figure 5).  
+(5) The decay rates of NMD targets are consistently higher than those of TuORF mRNAs (Figure S11).  
+(6) NMD targets also appear to be degraded by additional pathway(s) in the absence of both VCS (5'->3') and SOV (3'->5') pathways(Figure S11H).  
 
 The data has been uploaded to [GEO](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwiUjJLUz5n6AhVrjokEHdoyCFIQFnoECAQQAQ&url=https%3A%2F%2Fwww.ncbi.nlm.nih.gov%2Fgeo%2F&usg=AOvVaw3Dc0qZ8-sNL7LwyPCWsoAr) under GSE183264. The datasets will be released to public after the paper is accepted. 
 The Arabidopsis annotation Araport11 and TAIR10 genome sequence files can be found on [TAIR](https://www.arabidopsis.org)
