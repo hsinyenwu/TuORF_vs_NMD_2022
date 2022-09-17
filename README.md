@@ -1,7 +1,7 @@
-#### The code provided here is for the following paper:  
+### The code provided here is for the following paper:  
 [Nonsense-mediated decay is not a major mechanism for regulating the uORF-containing mRNAs in Arabidopsis](https://www.biorxiv.org/content/10.1101/2021.09.16.460672v3)
 
-We provided six lines of evidence that:  
+**We provided six lines of evidence that NMD is not a major mechanism regulating TuORF mRNAs in plants:**  
 (1) NMD targets, but not TuORF mRNAs, are upregulated in various NMD mutants (Figure 3).  
 (2) TuORF mRNAs have significantly higher transcript levels, while the NMD targets have lower transcript levels than other genes (Figure 4A and 4E).  
 (3) NMD and TuORFs additively repress translation, suggesting they repress translation through separate mechanisms (Figure 4B, 4F).  
