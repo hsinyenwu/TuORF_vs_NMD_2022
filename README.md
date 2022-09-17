@@ -29,3 +29,13 @@ Figure S9. Lengths of the uORF peptides for NMD target and non-NMD target TuORFs
 Figure S10. Lengths of UTRs and CDS for NMD targets and TuORF genes  
 Figure S11. The mRNA decay rates of NMD targets and TuORF-containing mRNAs in different genetic backgrounds  
 
+Table S1. Translated ORFs identified by RiboTaper  
+•	Table S1A-C. Translated uORFs identified in the current dataset and our previous Arabidopsis shoot and root datasets  
+•	Table S1D-F. Translated mORFs identified in the current dataset and our previous Arabidopsis shoot and root datasets  
+Table S2. GO-term analysis of TuORF genes  
+Table S3. Summary of the large-scale datasets used in this study  
+Table S4. NMD target gene list  
+•	Table S4A. High-confidence NMD targets expressed in our data  
+•	Table S4B. 49 genes identified as high-confidence NMD target TuORF genes  
+
+
