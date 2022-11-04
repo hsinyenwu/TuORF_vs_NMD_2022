@@ -53,7 +53,7 @@ For more about Ribo-seq visualization, please see [here](https://github.com/hsin
 
 #### Files used in this analysis:
 Table S4: TE_CDS data, will be released after paper accepted for publication  
-Annotation file used here: Araport11_20181206_max_isoform.gtf  
+Annotation file used here: [Araport11_20181206_max_isoform.gtf](https://github.com/hsinyenwu/TuORF_vs_NMD_2022/blob/main/Data/Araport11_20181206_max_isoform.gtf.zip)
 Arabidopsis expression data:
 [E-MTAB-7978](https://www.ebi.ac.uk/gxa/experiments/E-MTAB-7978/Downloads)
 
