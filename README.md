@@ -42,10 +42,19 @@ Table S1. Translated ORFs identified by RiboTaper
 •	Table S1A-C. Translated uORFs identified in the current dataset and our previous Arabidopsis shoot and root datasets  
 •	Table S1D-F. Translated mORFs identified in the current dataset and our previous Arabidopsis shoot and root datasets  
 Table S2. GO-term analysis of TuORF genes  
-Table S3. Summary of the large-scale datasets used in this study  
-Table S4. NMD target gene list  
-•	Table S4A. High-confidence NMD targets expressed in our data  
-•	Table S4B. 49 genes identified as high-confidence NMD target TuORF genes  
+Table S3. Summary of the large-scale datasets used in this study
+Table S4. Expression data TPM values for RNA-seq, Ribo-seq and TE for each gene (CDS region)
+Table S5. NMD target gene list  
+•	Table S5A. High-confidence NMD targets expressed in our data  
+•	Table S5B. 49 genes identified as high-confidence NMD target TuORF genes  
 
 For more about Ribo-seq library construction, please see [here](https://github.com/hsinyenwu/Riboseq_protocol_2022).  
 For more about Ribo-seq visualization, please see [here](https://github.com/hsinyenwu/RiboPlotR).  
+
+#### Files used in this analysis:
+Table S4: TE_CDS data, will be released after paper accepted for publication
+Annotation file used here: Araport11_20181206_max_isoform.gtf
+
+
+
+
