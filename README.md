@@ -51,10 +51,13 @@ For more about Ribo-seq library construction, please see [here](https://github.c
 For more about Ribo-seq visualization, please see [here](https://github.com/hsinyenwu/RiboPlotR).  
 
 #### Files used in this analysis:
-ORF_max_filt_uORF file will be available after paper accepted for publication
+ORF_max_filt_uORF file will be available after paper accepted for publication  
 Annotation file used here: [Araport11_20181206_max_isoform.gtf](https://github.com/hsinyenwu/TuORF_vs_NMD_2022/blob/main/Data/Araport11_20181206_max_isoform.gtf.zip)  
-RNA-seq TPM:
-Ribo-seq TPM:
+RNA-seq TPM:  
+Ribo-seq TPM:  
+mRNA half-lives: Supplemental Data Set 6 in [Szabo et al. 2020 TPC](https://academic.oup.com/plcell/article/32/4/871/6115746)  
+quantitative proteomics for [Arabidopsis seedling shoot]([https://analyticalsciencejournals.onlinelibrary.wiley.com/doi/abs/10.1002/pmic.201800220](https://analyticalsciencejournals.onlinelibrary.wiley.com/action/downloadSupplement?doi=10.1002%2Fpmic.201800220&file=pmic12946-sup-0004-TableS7.xlsx)  
+quantitative proteomics for [Arabidopsis seedling root](https://analyticalsciencejournals.onlinelibrary.wiley.com/action/downloadSupplement?doi=10.1002%2Fpmic.201800220&file=pmic12946-sup-0005-TableS9.xlsx)
 Expression data: Please search and download the results at (https://www.ebi.ac.uk/gxa/experiments/)  
 . E-MTAB-7978: Arabidopsis tissues  
 . E-GEOD-53197: 17 Arabidopsis thaliana accessions  
