@@ -52,8 +52,10 @@ For more about Ribo-seq library construction, please see [here](https://github.c
 For more about Ribo-seq visualization, please see [here](https://github.com/hsinyenwu/RiboPlotR).  
 
 #### Files used in this analysis:
-Table S4: TE_CDS data, will be released after paper accepted for publication
-Annotation file used here: Araport11_20181206_max_isoform.gtf
+Table S4: TE_CDS data, will be released after paper accepted for publication  
+Annotation file used here: Araport11_20181206_max_isoform.gtf  
+Arabidopsis expression data:
+[E-MTAB-7978](https://www.ebi.ac.uk/gxa/experiments/E-MTAB-7978/Downloads)
 
 
 
